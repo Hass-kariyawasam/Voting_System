@@ -10,7 +10,7 @@
 int main() {
     
     
-        num();
+        number();
     
     return 0;
 }
