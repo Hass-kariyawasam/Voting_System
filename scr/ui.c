@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdio.h>
 #include <string.h>
 #include "custerm.h"
 
@@ -21,7 +20,7 @@ int UI_PO() {
     switch (choice) {
         case 1:
             printf("Polling opened.\n");
-            // Add functionality to open polling
+            int PO_open_polling();
             break;
         case 2:
             printf("Polling closed.\n");
@@ -69,15 +68,36 @@ int PO_open_polling() {
     
     return 0;
 }
-/*================================================= 
-                 OPEN POLLING 
-================================================= 
- 
- Confirm action: Do you want to OPEN polling? 
- 
- [1] Yes – Open Polling 
- [2] No  – Cancel and Return 
- 
-------------------------------------------------- 
- Enter your choice: _*/
+
+int PO_close_polling() {
+    E_seperator();
+    printf("\t\tCLOSE POLLING\n");
+    E_seperator();
+
+    printf("\n Confirm action: Do you want to CLOSE polling? \n");
+    
+    printf("\n [1] Yes – Close Polling \n");
+    printf(" [2] No  – Cancel and Return \n");
+
+    printf("\n------------------------------------------------- \n");
+    printf(" Enter your choice: ");
+    
+    int choice;
+    scanf("%d", &choice);
+    
+    switch (choice) {
+        case 1:
+            printf("Polling closed.\n");
+            // Add functionality to close polling
+            break;
+        case 2:
+            UI_PO(); // Return to PO panel
+            return 0;
+        default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+    }
+    
+    return 0;
+}
 
