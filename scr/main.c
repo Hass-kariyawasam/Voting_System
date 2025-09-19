@@ -15,12 +15,28 @@ int voter_login();
 int registration();
 int counting_PR_dis_();
 
-
+void num();
+void number();
 int main () {
+  void num() {
+         for (int i = 1; i <= 55; i++) {
+         printf("=");
+        }
+         printf("\n");
+    }
+
+    void number() {
+         for (int i = 1; i <= 55; i++) {
+         printf("-");
+        }
+         printf("\n");
+    }
+    
+       
       
-    void num();
+    num();
     printf("\n\tPARTY ADMIN LOGIN\n\t");
-    void num();
+    num();
     printf("\nPlease enter your credentials:");
 
 
@@ -36,17 +52,17 @@ int main () {
 
                                      if (Password == 12345) {
                                      printf("Login Successful!\n");
-                                     void number();
+                                      number();
 
 
-                                     void num();
+                                    num();
                                      printf("\n\tPARTY ADMIN CONTROL PANEL\n\t");
-                                     void num();
+                                    num();
                                     
                                      int choice;
                                      printf("\n[1] SUBMIT NOMINATION LISTt\n");
                                      printf("[2] Logout\n");
-                                      void number();
+                                     number();
 
                                      printf("Enter your choice:");
                                      scanf("%d",&choice);
@@ -55,9 +71,9 @@ int main () {
                                       switch (choice)
                                       {
                                       case 1:
-                                      void num();
+                                      num();
                                       printf("\n\tSUBMIT NOMINATION LIST\n\t");
-                                      void num();
+                                      num();
                                                 int code;
                                                 char name[20];
 
@@ -65,24 +81,26 @@ int main () {
                                                 scanf("%d",& code);
                                                 printf("Enter party name:\t");
                                                 scanf(" %c", & name);
-                                                void number();
+                                               number();
 
 
                                                 int C_code,D_code,N_num,DOB;
-                                                char C_name;
+                                                char C_name[50],answer[2];
 
                                                 printf("\nEnter candidate name:\t");
-                                                scanf(" \n%c",& C_name);
+                                                scanf(" \n%c",C_name);
                                                 printf("\nEnter candidate code:\t");
-                                                scanf("\n%d",& C_code);
+                                                scanf("\n%d",&C_code);
                                                 printf("\nEnter district  code:\t");
-                                                scanf("\n%d",& D_code);
+                                                scanf("\n%d",&D_code);
                                                 printf("\nEnter NIC Number:\t");
-                                                scanf("\n%d",& N_num);
+                                                scanf("\n%d",&N_num);
                                                 printf("\nEnter Date Of Birth:\t");
-                                                scanf("\n%d",& DOB);
-                                                
-                                                
+                                                scanf("\n%d",&DOB);
+                                                number();
+                                                printf("\nAdd another candidate?  (Y/N):");
+                                                scanf(" %c",answer);
+                                              
                                                 
 
 
