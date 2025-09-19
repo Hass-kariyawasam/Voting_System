@@ -30,17 +30,33 @@ int main() {
 
     printf("\nEnter Age:\t");
     scanf("%d", &Age);
+    if (Age>18){
+       
 
-    printf("\nCitizenship (Y/N):\t");
-    scanf(" %1s", citizen);
+        printf("\nCitizenship (Y/N):\t");
+        scanf(" %1s", citizen);
+        if (citizen[0] != 'N' && citizen[0] != 'N'){
+               
 
-    printf("\nCreate Password:\t");
-    scanf("%d", &pwd);
+                    printf("\nCreate Password:\t");
+                    scanf("%d", &pwd);
 
-    printf("\nEnter District Code:\t");
-    scanf("%d", &D_code);
+                     printf("\nEnter District Code:\t");
+                     scanf("%d", &D_code);
 
-    printf("\nEnter Party Code:\t");
-    scanf("%d", &P_code);
+                      printf("\nEnter Party Code:\t");
+                      scanf("%d", &P_code);
+                      number();
+                    }
+
+               } else {
+         printf("you are not eligible to vote");}
+         number();
+    
+     } else {
+         printf("you are not eligible to vote");}
+         number();
+    
+    
     return 0;
 }

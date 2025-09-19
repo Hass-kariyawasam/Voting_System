@@ -8,16 +8,14 @@ int admin_panel();
 int UI_RO();
 int UI_PO();
 int voter();
-int voter_registation();
+int voter_registation();         
 int election_admin();
 int party_admin();
 int voter_login();
-int registration();
+int registration();                                       
 int counting_PR_dis_();
 
-void num();
-void number();
-int main () {
+
   void num() {
          for (int i = 1; i <= 55; i++) {
          printf("=");
@@ -32,7 +30,7 @@ int main () {
          printf("\n");
     }
     
-       
+    int main (){   
       
     num();
     printf("\n\tPARTY ADMIN LOGIN\n\t");
