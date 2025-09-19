@@ -2,6 +2,8 @@
 #include <string.h>
 #include "custerm.h"
 int main(); // Forward declaration of main
+
+
 int admin_loging(const char *user) {
 
     char username[50];
@@ -12,7 +14,7 @@ int admin_loging(const char *user) {
     snprintf(userid, sizeof(userid), "%s LOGIN PORTAL", user); // E.g., "ELECTION LOGIN PORTAL"
 
     E_seperator();  // Call to separator function
-    printf("\t\t%s\n",userid);
+    printf("\t%s\n",userid);
     E_seperator(); // Call to separator function
 
     printf("\nPlease enter your credentials:\n\n");   
@@ -35,16 +37,42 @@ int admin_loging(const char *user) {
         for (int i = 0; i <= 10; i++) {
             printf(".");
             for (int j = 0; j < 100000000; j++); // Inner delay loop
+
+        
         }
+            
         
         printf("\n");
+        if (strcmp(user, "ELECTION") == 0) {
+            
+           
+        } else if (strcmp(user, "RETURNING") == 0) {
+            
+                        
+        } else if (strcmp(user, "PRESIDING") == 0) {
+            UI_PO();
+
+        } else if (strcmp(user, "PARTY_ADMIN") == 0){
+            
+        }  else {
+            printf("ERRO Unknown user type.\n");
+            admin_panel();
+        }
         
-        main();
-        return 1; // Successful login
+        
+        return 1; 
 
     } else {
         printf("Invalid credentials. Please try again.\n");
-        // Handle invalid login
+        
+        printf("Redirecting to admin menu...\n");
+        for (int i = 0; i <= 10; i++) {
+            printf(".");
+            for (int j = 0; j < 100000000; j++); // Inner delay loop
+
+        }
+        admin_panel();
+         printf("\n");
     }
 
     return 0;
