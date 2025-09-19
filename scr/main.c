@@ -10,7 +10,3 @@ int main() {
     return 0;
 }
 
-int UI_RO() {
-    
-    return 0;
-}
