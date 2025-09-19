@@ -3,6 +3,7 @@
 int admin_loging(const char *user);
 //compenents
 int E_seperator();
+int D_seperator();
 
 //UI
 int main_menu();

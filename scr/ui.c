@@ -303,36 +303,7 @@ int public_nomination_list() {
     printf("press [Enter] to return to Party Selection...");
     return 0;   
 }
-        
-      
-/*================================================= 
-           ELECTION RESULTS – 2025 
-================================================= 
- 
-Available Districts: 
-[1] D001 - Colombo 
-[2] D002 - Gampaha 
-[3] D003 - Kandy 
-[0] Back to Main Menu 
- 
-------------------------------------------------- 
-Enter District Code to View Results: D001 
-------------------------------------------------- 
- 
-ELECTION RESULTS – DISTRICT COLOMBO (D001) 
-------------------------------------------------- 
-Party Code   Party Name                 Total Votes   Seats Won 
-------------------------------------------------- 
-P123         Unity National Party       105,450       6 
-P456         People’s Freedom Front      89,320       5 
-P789         National People’s Alliance  42,150       2 
-------------------------------------------------- 
-Bonus Seat Awarded to: P123 - Unity National Party 
-------------------------------------------------- 
- 
- 
-------------------------------------------------- 
-Press [Enter] to return to District Selection... */     
+    
 
 int election_results_menu() {
     E_seperator();
@@ -395,3 +366,43 @@ int election_results_district_view() {
     printf("press [Enter] to return to District Selection...");
     return 0;   
 }
+
+int UI_election_admin(){
+    E_seperator();
+    printf("\t\tELECTION ADDMIN PANNEL\n");
+    E_seperator();
+
+    printf("[1] District Registration \n");
+    printf("[2] Party Registration \n");
+    printf("[3] Final Result Declaration \n");
+    printf("[0] Back to Admin Control Panel\n");
+
+    D_seperator();
+
+    printf("Enter your choice: ");
+    int choice;
+    scanf("%d",&choice);
+
+    switch(choice){
+        case 1:
+            //*********************************************************************** */
+            break;
+        
+        case 2:
+            //********************************************************************* */
+            break;
+        case 3:
+            //******************************************************************** */
+            break;
+
+        case 4:
+            //******************************************************************** */
+            break;
+
+        
+        }
+
+        return 0;
+
+}     
+    
