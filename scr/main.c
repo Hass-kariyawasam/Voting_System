@@ -88,7 +88,7 @@ int main () {
                                                 char C_name[50],answer[2];
 
                                                 printf("\nEnter candidate name:\t");
-                                                scanf(" \n%c",C_name);
+                                                scanf(" %c",C_name);
                                                 printf("\nEnter candidate code:\t");
                                                 scanf("\n%d",&C_code);
                                                 printf("\nEnter district  code:\t");
@@ -100,12 +100,7 @@ int main () {
                                                 number();
                                                 printf("\nAdd another candidate?  (Y/N):");
                                                 scanf(" %c",answer);
-                                              
-                                                
-
-
-
-                                              
+                                         
 
                                       
 
