@@ -304,4 +304,41 @@ int public_nomination_list() {
 }
         
       
-       
+int UI_election_admin(){
+    E_seperator();
+    printf("\t\tELECTION ADDMIN PANNEL\n");
+    E_seperator();
+
+    printf("[1] District Registration \n");
+    printf("[2] Party Registration \n");
+    printf("[3] Final Result Declaration \n");
+    printf("[0] Back to Admin Control Panel\n");
+
+    D_seperator();
+
+    printf("Enter your choice: ");
+    int choice;
+    scanf("%d"&choice);
+
+    switch(choise){
+        case 1:
+            //*********************************************************************** */
+            break;
+        
+        case 2:
+            //********************************************************************* */
+            break;
+        case 3:
+            //******************************************************************** */
+            break;
+
+        case 4:
+            //******************************************************************** */
+            break;
+
+        
+        }
+
+
+
+}     
