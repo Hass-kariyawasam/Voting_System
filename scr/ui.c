@@ -476,7 +476,7 @@ int nomination()
 {
 
     E_seperator();
-    printf("SUBMIT NOMINATION LIST");
+    printf("SUBMIT NOMINATION LIST\n");
     E_seperator();
 
     int code;
@@ -489,10 +489,11 @@ int nomination()
     D_seperator();
 
     printf("Confirm Submission? (Y/N):Y ");
+    scanf(" %*c");
     printf("\nSaving Nomination list...");
-    printf("\nNomination list  successfully submitted to Ro!");
+    printf("\nNomination list  successfully submitted to Ron");
     D_seperator();
-    printf("Redirecting to Party Admin Menu...");
+    printf("Redirecting to Party Admin Menu...\n");
     UI_party_admin();
 }
 
