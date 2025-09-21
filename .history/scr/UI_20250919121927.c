@@ -1,0 +1,224 @@
+#include <stdio.h>
+#include <string.h>
+#include "custerm.h"
+
+int main(); // Forward declaration of main
+/*
+============================================== 
+       Welcome to Sri Lanka Parliament 
+             Voting System 2025 
+============================================== 
+ 
+[1] Admin Control Panel 
+[2] Voter Registration 
+[3] Candidate Registration 
+[4] Vote Casting (Polling) 
+[5] View Nominations List 
+[6] Results & Publications 
+[0] Exit System 
+ 
+---------------------------------------------- 
+Enter your choice: _ 
+ 
+ 
+ADMIN PANEL  
+================================================= 
+            ADMIN CONTROL PANEL – 2025 
+================================================= 
+ 
+[1] Returning Officer (RO) 
+[2] Election Admin 
+[3] Presiding Officer (PO) 
+[4] Party Agent / Observer 
+[0] Back to Main Menu 
+ 
+------------------------------------------------- 
+Enter your choice: _ */
+
+int main_menu() {
+    E_seperator();
+    printf("       Welcome to Sri Lanka Parliament\n");
+    printf("             Voting System 2025\n");
+    E_seperator();
+
+    printf("[1] Admin Control Panel\n");
+    printf("[2] Voter Registration\n");
+    printf("[3] Candidate Registration\n");
+    printf("[4] Vote Casting (Polling)\n");
+    printf("[5] View Nominations List\n");
+    printf("[6] Results & Publications\n");
+    printf("[0] Exit System\n");
+
+    printf("\n----------------------------------------------\n");
+    printf("Enter your choice: ");
+    
+    int choice;
+    scanf("%d", &choice);
+    
+    switch (choice) {
+        case 1:
+            admin_panel();
+            break;
+        case 2:
+            voter_registation();
+            break;
+        case 3:
+            candidate_registration();
+            break;
+        case 4:
+            vote_casting();
+            break;
+        case 5:
+            view_nominations_list();
+            break;
+        case 6:
+            results_publications();
+            break;
+        case 0:
+            printf("Exiting system...\n");
+            return 0; // Exit the program
+        default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+    }
+    
+    return 0; // Return to main menu
+}
+
+int admin_panel() {
+    E_seperator();
+    printf("\t\tADMIN CONTROL PANEL – 2025\n");
+    E_seperator();
+    
+    printf("\n [1] Returning Officer (RO) \n");
+    printf(" [2] Election Admin \n");
+    printf(" [3] Presiding Officer (PO) \n");
+    printf(" [4] Party Agent / Observer \n");
+    printf(" [0] Back to Main Menu \n");
+    
+    printf("\n------------------------------------------------- \n");
+    printf(" Enter your choice: ");
+    
+    int choice;
+    scanf("%d", &choice);
+    
+    switch (choice) {
+        case 1:
+            UI_RO(); // Call RO panel
+            break;
+        case 2:
+            election_admin(); // Call Election Admin panel
+            break;
+        case 3:
+            UI_PO(); // Call PO panel
+            break;
+        case 4:
+            party_agent_observer(); // Call Party Agent/Observer panel
+            break;
+        case 0:
+            main_menu(); // Return to main menu
+            return 0;
+        default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+    }
+    
+    return 0; // Return to admin panel
+}
+int UI_PO() {
+    E_seperator();
+    printf("\t\tPRESIDING OFFICER PANEL\n");
+    E_seperator();
+    printf("\n [1] Open Polling \n");
+    printf(" [2] Close Polling \n");
+    printf(" [0] Back to Admin Control Panel \n");
+    printf("\n------------------------------------------------- \n");
+    printf(" Enter your choice: ");
+    
+    int choice;
+    scanf("%d", &choice);
+    
+    switch (choice) {
+        case 1:
+            printf("Polling opened.\n");
+            int PO_open_polling();
+            break;
+        case 2:
+            printf("Polling closed.\n");
+            // Add functionality to close polling
+            break;
+        case 0:
+            main(); // Return to main menu
+            return 0;
+        default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+    }
+    
+    return 0;
+}
+
+int PO_open_polling() {
+    E_seperator();
+    printf("\t\tOPEN POLLING\n");
+    E_seperator();
+
+    printf("\n Confirm action: Do you want to OPEN polling? \n");
+    
+    printf("\n [1] Yes – Open Polling \n");
+    printf(" [2] No  – Cancel and Return \n");
+
+    printf("\n------------------------------------------------- \n");
+    printf(" Enter your choice: ");
+    
+    int choice;
+    scanf("%d", &choice);
+    
+    switch (choice) {
+        case 1:
+            printf("Polling opened.\n");
+            // Add functionality to open polling
+            break;
+        case 2:
+            UI_PO(); // Return to PO panel
+            return 0;
+        default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+    }
+    
+    return 0;
+}
+
+int PO_close_polling() {
+    E_seperator();
+    printf("\t\tCLOSE POLLING\n");
+    E_seperator();
+
+    printf("\n Confirm action: Do you want to CLOSE polling? \n");
+    
+    printf("\n [1] Yes – Close Polling \n");
+    printf(" [2] No  – Cancel and Return \n");
+
+    printf("\n------------------------------------------------- \n");
+    printf(" Enter your choice: ");
+    
+    int choice;
+    scanf("%d", &choice);
+    
+    switch (choice) {
+        case 1:
+            printf("Polling closed.\n");
+            // Add functionality to close polling
+            break;
+        case 2:
+            UI_PO(); // Return to PO panel
+            return 0;
+        default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+    }
+    
+    return 0;
+}
+
