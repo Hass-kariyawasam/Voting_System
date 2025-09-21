@@ -12,10 +12,10 @@ void voter_registration() {
     char citizenship;
     char password[50], confirmPassword[50];
     char districtCode[10];
-    char errornic[50]; 
-    char errorage[50]; 
-    char errorcitiy[50];
-    char errorpass[50];  
+    char errornic[50] =""; 
+    char errorage[50] =""; 
+    char errorcitiy[50] =""; 
+    char errorpass[50] =""; 
 
     E_seperator();
     printf("\tVOTER REGISTRATION\n");
@@ -31,7 +31,7 @@ void voter_registration() {
     }
     // Full Name
     printf("Enter Full Name\t\t: ");
-    scanf("%99s", Name);   // will stop at first space
+    scanf("%99s", Name);   
     
     
 
@@ -39,7 +39,7 @@ void voter_registration() {
     printf("Enter Age\t\t: ");
     scanf("%d", &age);
     if (age < 18) {
-        strcpy(errorage, "[Error] Age must be 18 or older!");
+        strcpy(errorage,"[Error] Age must be 18 or older!");
         
        
     }
@@ -52,7 +52,7 @@ void voter_registration() {
         // ok
     } else {
        
-        strcpy(errorcitiy, "[Error] Citizenship must be 'Y' to register!");
+        strcpy(errorcitiy,"[Error] Citizenship must be 'Y' to register!");
         
     }
 
