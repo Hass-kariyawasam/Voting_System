@@ -26,3 +26,16 @@ int polling_login();
 int votting_casting();
 
 int public_nomination_list();
+
+//HIMANSANA.....................
+int UI_election_admin();
+int district_registration();
+int add_new_district();
+int display_all_districts();
+int party_registration();
+int display_registerd_parties();
+int final_result_declaration();
+
+
+
+
