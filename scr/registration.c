@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h> //screen clear
 #include "custom.h"
-
+#define voter_file "../data/voters.txt"
 int main(); 
 
 void voter_registration() {
@@ -74,21 +74,26 @@ void voter_registration() {
     printf("Enter District Code\t: ");
     scanf("%9s", districtCode);
 
+    FILE *fp = fopen(voter_file, "a");
+    if (fp == NULL) {
+        printf("Error opening file for voters!\n");
+        exit(1);
+    }   
     //error handling
     if (strlen(errornic) != 0 || strlen(errorage) != 0 || strlen(errorcitiy) != 0 || strlen(errorpass) != 0){
         // There are errors
-        printf("-------------------------------------------------\n");
+        D_seperator();
         if (strlen(errornic) != 0) {
-            printf("%s\n", errornic);
+            printf("%s\n",errornic);
         }
         if (strlen(errorage) != 0) {
-            printf("%s\n", errorage);
+            printf("%s\n",errorage);
         }
         if (strlen(errorcitiy) != 0) {
-            printf("%s\n", errorcitiy);
+            printf("%s\n",errorcitiy);
         }
         if (strlen(errorpass) != 0) {
-            printf("%s\n", errorpass);
+            printf("%s\n",errorpass);
         }
         printf("-------------------------------------------------\n");
         printf("Registration failed due to above errors.\n");
@@ -101,6 +106,13 @@ void voter_registration() {
         main_menu();
     }
     else{
+
+    
+    fprintf(fp, "%s|%s|%d|%c|%s|%s\n", nic, Name, age, citizenship, password, districtCode);
+    fclose(fp);
+
+
+    
     // Final success
     printf("-------------------------------------------------\n");
     printf("[System] Saving voter record...\n");

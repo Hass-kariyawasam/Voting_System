@@ -5,6 +5,7 @@
 
 //file handling declarations
 #define DISTRICT_FILE "../data/districts.txt"
+#define PARTY_FILE "../data/parties.txt"
 
 int main(); 
 
@@ -373,21 +374,51 @@ char add_district() {
 
  }      
 
+char add_party(){
+
+    char party_name[20];
+    char party_code[10];
+    char add_more;
+
+    printf("Enter Party Name\t: ");
+    scanf("%s", party_name);
+    printf("Enter Party Code\t: ");
+    scanf("%s", party_code);
+   
+
+    FILE *fp = fopen(PARTY_FILE, "a"); 
+    if (fp == NULL) {
+        printf("Error opening file for party!\n");
+        exit(1);
+    }
+
+    fprintf(fp, "%s|%s\n", party_code, party_name);
+    fclose(fp);
+
+    printf("-------------------------------------------------\n");
+    printf("[System] New party '%s' with code '%s' added successfully!\n", party_name, party_code);
+    printf("Add another party? (Y/N): ");
+    scanf(" %c", &add_more);
+    return add_more;
+}
+
 int party_registration(){
     E_seperator();
     printf("\t\tParty Registration\n");
     E_seperator();
 
-    char party_name[50];
-    char party_code[10];
+    char add_more;
 
-    printf("Enter Party Name: ");
-    scanf("%s", party_name);
-    printf("Enter Party Code: ");
-    scanf("%s", party_code);
+    do {
+        add_more = add_party();
+        
+    } while (add_more == 'Y' || add_more == 'y');
 
-    printf("-------------------------------------------------\n");
-    printf("[System] New party '%s' with code '%s' registered successfully!\n", party_name, party_code);
+
+
+        printf("-------------------------------------------------\n");
+        printf("Options: \n");
+        printf("[0] Back to Election Admin Menu \n");
     printf("-------------------------------------------------\n");
 
      printf("Enter your choice: ");
@@ -398,7 +429,7 @@ int party_registration(){
             
             case 0:
                 system("cls");
-                district_registration();
+                UI_election_admin();
             
             default:
             printf("Invalid choice. Please try again.\n");
