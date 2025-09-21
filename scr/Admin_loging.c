@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h> //screen clear
 #include "custom.h"
-int main(); // Forward declaration of main
-
 
 int admin_loging(const char *user) {
 
@@ -31,31 +30,29 @@ int admin_loging(const char *user) {
     if (strcmp(username, user) == 0 && strcmp(password, pass) == 0) {
         printf("Login successful!\n");
         // time delay simulation
-        printf("initializing");
-       
-        // Simple delay loop
-        for (int i = 0; i <= 10; i++) {
-            printf(".");
-            for (int j = 0; j < 100000000; j++); // Inner delay loop
-
-        
-        }
+        time_delay();
             
         
         printf("\n");
         if (strcmp(user, "ELECTION") == 0) {
+            system("cls");
             UI_election_admin();
            
         } else if (strcmp(user, "RETURNING") == 0) {
-            
+            system("cls");
+            returnig_officer();
                         
         } else if (strcmp(user, "PRESIDING") == 0) {
+            system("cls");
             UI_PO();
 
         } else if (strcmp(user, "PARTY_ADMIN") == 0){
-            
+            system("cls");
+            UI_party_admin();
         }  else {
             printf("ERRO Unknown user type.\n");
+            time_delay();
+            system("cls");
             admin_panel();
         }
         
@@ -71,8 +68,9 @@ int admin_loging(const char *user) {
             for (int j = 0; j < 100000000; j++); // Inner delay loop
 
         }
+        system("cls");
         admin_panel();
-         printf("\n");
+        printf("\n");
     }
 
     return 0;
