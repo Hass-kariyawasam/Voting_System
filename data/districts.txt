@@ -1,0 +1,6 @@
+21|Galle|45
+12|Mataa|36
+12|colom|36
+152|Uwa|3
+20|uwa|2
+15|wellasa|3

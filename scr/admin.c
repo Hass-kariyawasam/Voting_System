@@ -3,71 +3,12 @@
 #include <stdlib.h> //screen clear
 #include "custom.h"
 
+//file handling declarations
+#define DISTRICT_FILE "../data/districts.txt"
+
 int main(); 
 
-// main menu
-int main_menu(){
 
-    E_seperator();
-    printf("\tWelcome to Sri Lanka Parliament\n");
-    printf("\t\tVoting System 2025\n");
-    E_seperator();
-
-    printf(" [1] Admin Control Panel\n");
-    printf(" [2] Voter Registration\n");
-    printf(" [3] Candidate Registration\n");
-    printf(" [4] Vote Casting (Polling)\n");
-    printf(" [5] View Nominations List\n");
-    printf(" [6] Results & Publications\n");
-    printf(" [0] Exit System\n");
-
-    printf("\n----------------------------------------------\n");
-    printf("Enter your choice: ");
-
-    int choice;
-    scanf("%d", &choice);
-
-    switch (choice){
-    case 1:
-        system("cls");
-        admin_panel();
-
-        break;
-    case 2:
-        system("cls");
-        voter_registration();
-        break;
-    case 3:
-        system("cls");
-        candidate_registration();
-         break;
-    case 4:
-        system("cls");
-        polling_login();
-        break;
-    case 5:
-        system("cls");
-        public_nomination_list();
-        break;
-    case 6:
-        system("cls");
-        election_results_menu();
-        break;
-    case 0:
-        system("cls");
-        printf("Exiting system...\n");
-        return 0; // Exit the program
-    default:
-        
-        printf("Invalid choice. Please try again.\n");
-        time_delay();
-        system("cls");
-        main_menu();
-        break;
-    }
-
-    return 0; // Return to main menu 
-}
 
 // admin panel
 int admin_panel()
@@ -316,22 +257,49 @@ int UI_election_admin(){
         }
     return 0;
  }
+char add_district() {
 
+    char district_name[20];
+    char district_code[10];
+    char district_seat[10];
+    char add_more;
+
+    printf("Enter District Name\t: ");
+    scanf("%s", district_name);
+    printf("Enter District Code\t: ");
+    scanf("%s", district_code);
+    printf("Enter number of seats\t: ");
+    scanf("%s", district_seat);
+
+    FILE *fp = fopen(DISTRICT_FILE, "a"); 
+    if (fp == NULL) {
+        printf("Error opening file for districts!\n");
+        exit(1);
+    }
+
+    fprintf(fp, "%s|%s|%s\n", district_code, district_name, district_seat);
+    fclose(fp);
+
+    printf("-------------------------------------------------\n");
+    printf("[System] New district '%s' with code '%s' added successfully!\n", district_name, district_code);
+    printf("Add another district? (Y/N): ");
+    scanf(" %c", &add_more);
+    return add_more;
+}
  int add_new_district(){
     E_seperator();
     printf("\t\tAdd New District\n");
     E_seperator();
 
-    char district_name[20];
-    char district_code[10];
+    char add_more;
 
-    printf("Enter District Name: ");
-    scanf("%s", district_name);
-    printf("Enter District Code: ");
-    scanf("%s", district_code);
+    do {
+        add_more = add_district();
+        
+    } while (add_more == 'Y' || add_more == 'y');
 
-    printf("-------------------------------------------------\n");
-    printf("[System] New district '%s' with code '%s' added successfully!\n", district_name, district_code);
+   
+    
     printf("-------------------------------------------------\n");
     printf("Options: \n");
     printf(" [0] Back \n");
@@ -366,7 +334,36 @@ int UI_election_admin(){
     E_seperator();
     printf("\t\tAll Registered Districts\n");
     E_seperator();
-    printf("-------------------------------------------------\n");
+
+    printf("\n  Code\t| Name\t\t| Seats\n");
+    printf("---------------------------------------\n");
+
+
+    FILE *fp = fopen(DISTRICT_FILE, "r");
+    if (fp == NULL) {
+        printf("Error opening file for districts!\n");
+        exit(1);
+    }
+
+    char line[200];
+    while (fgets(line, sizeof(line), fp)) {
+        char *token = strtok(line, "|");
+        if (token != NULL) {
+            printf("  %s\t", token); // District Code
+            token = strtok(NULL, "|");
+        }
+        if (token != NULL) {
+            printf("| %-9s\t", token); // District Name
+            token = strtok(NULL, "|");
+        }
+        if (token != NULL) {
+            printf("| %s", token); // Number of Seats
+        }
+        
+    }
+    fclose(fp);
+   printf("---------------------------------------\n");
+    
     pressEnterToContinue();
     system("cls");
     district_registration();
