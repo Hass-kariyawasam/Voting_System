@@ -1,6 +1,9 @@
+
 #include <stdio.h>
+#include "custom.h"
 
 //funtions declaration
+
 int UI_main_menu();
 int UI_admin_menu();
 int admin_loging();
@@ -122,5 +125,14 @@ if (Username == 5615) {
    
                             
  return 0;
+
+
+int main_menu();
+
+int main() {
+    // Your code here
+    main_menu();
+    return 0;
+
 }
 
