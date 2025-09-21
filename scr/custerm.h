@@ -37,5 +37,3 @@ int display_registerd_parties();
 int final_result_declaration();
 
 
-
-
