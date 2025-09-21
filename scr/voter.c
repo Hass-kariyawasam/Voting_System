@@ -27,7 +27,7 @@ int main() {
     
 
     printf("\nEnter Full Name:\t");
-    scanf(" %[^\n]", name);
+    scanf(" %s", name);
 
     printf("\nEnter Age:\t");
     scanf("%d", &Age);
