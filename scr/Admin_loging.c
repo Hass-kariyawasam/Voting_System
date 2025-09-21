@@ -44,7 +44,7 @@ int admin_loging(const char *user) {
         
         printf("\n");
         if (strcmp(user, "ELECTION") == 0) {
-            
+            UI_election_admin();
            
         } else if (strcmp(user, "RETURNING") == 0) {
             
