@@ -419,6 +419,7 @@ int UI_election_admin(){
 
     switch(choice){
         case 1:
+
             //*********************************************************************** */
             break;
         
@@ -435,8 +436,164 @@ int UI_election_admin(){
 
         
         }
+}
 
 
 
-}     
+ int district_registration(){
+    E_seperator();
+    printf("\t\tDostrict Registration\n");
+    E_seperator();
+
+    printf("[1] Add New District \n");
+    printf("[2] Display All Districts \n");
+    printf("[0] Back to Election Admin Panel \n");
+
+    D_seperator();
+    printf("Enter your choice: ");
+    int choice;
+    scanf("%d",&choice);
+
+        switch (choice){
+            case 1:
+               add_new_district();
+                break;
+            case 2:
+               display_all_districts();
+                break;
+            case 0:
+                UI_election_admin();
+            
+            default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+
+        }
+    return 0;
+ }
+
+ int add_new_district(){
+    E_seperator();
+    printf("\t\tAdd New District\n");
+    E_seperator();
+
+    char district_name[20];
+    char district_code[10];
+
+    printf("Enter District Name: ");
+    scanf("%s", district_name);
+    printf("Enter District Code: ");
+    scanf("%s", district_code);
+
+    printf("-------------------------------------------------\n");
+    printf("[System] New district '%s' with code '%s' added successfully!\n", district_name, district_code);
+    printf("-------------------------------------------------\n");
+
+ printf("Enter your choice: ");
+    int choice;
+    scanf("%d",&choice);
+
+        switch (choice){
+        
+            case 0:
+                district_registration();
+            
+            default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+
+        }
+
+
+    return 0;
+
+ }
+
+ int display_all_districts(){
+    E_seperator();
+    printf("\t\tAll Registered Districts\n");
+    E_seperator();
+    printf("-------------------------------------------------\n");
+
+    //need to add registered districts from database
+
+
+ }      
+
+int party_registration(){
+    E_seperator();
+    printf("\t\tParty Registration\n");
+    E_seperator();
+
+    char party_name[50];
+    char party_code[10];
+
+    printf("Enter Party Name: ");
+    scanf("%s", party_name);
+    printf("Enter Party Code: ");
+    scanf("%s", party_code);
+
+    printf("-------------------------------------------------\n");
+    printf("[System] New party '%s' with code '%s' registered successfully!\n", party_name, party_code);
+    printf("-------------------------------------------------\n");
+
+     printf("Enter your choice: ");
+    int choice;
+    scanf("%d",&choice);
+
+        switch (choice){
+            
+            case 0:
+                district_registration();
+            
+            default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+
+        }
+    
+    return 0;
+
+}
+int display_registerd_parties(){
+    E_seperator();
+    printf("\t\tAll Registered Parties\n");
+    E_seperator();
+    printf("-------------------------------------------------\n");
+
+    //need to add registered parties from database
+return 0;  
+}   
+ int final_result_declaration(){
+    E_seperator();
+    printf("\t\tFinal Result Declaration\n");
+    E_seperator();
+
+    printf("[1] Collect District Results \n");
+    printf("[2] Generate Final Result Summary \n");
+    printf("[0] Back to Election Admin Panel \n");
+
+    D_seperator();
+    printf("Enter your choice: ");
+    int choice;
+    scanf("%d",&choice);
+
+        switch (choice){
+            case 1:
+               //*******************COLLECT DISTRICT RESULT**************************************************** 
+                break;
+            case 2:
+               //********************enerate Final Result Summary*************************************************** 
+                break;
+            case 0:
+                UI_election_admin();
+            
+            default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+
+        }
+    return 0;  
+ }  
+
 
