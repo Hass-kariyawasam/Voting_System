@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "custerm.h"
+#include "custom.h"
 
 int main(); // Forward declaration of main
 
@@ -68,7 +68,7 @@ int admin_panel() {
     printf(" [4] Party Agent / Observer \n");
     printf(" [0] Back to Main Menu \n");
     
-    printf("\n------------------------------------------------- \n");
+    D_seperator();
     printf(" Enter your choice: ");
     
     int choice;
@@ -106,7 +106,7 @@ int UI_PO() {
     printf("\n [1] Open Polling \n");
     printf(" [2] Close Polling \n");
     printf(" [0] Back to Admin Control Panel \n");
-    printf("\n------------------------------------------------- \n");
+    D_seperator();
     printf(" Enter your choice: ");
     
     int choice;
@@ -142,7 +142,7 @@ int PO_open_polling() {
     printf("\n [1] Yes Open Polling \n");
     printf(" [2] No Cancel and Return \n");
 
-    printf("\n------------------------------------------------- \n");
+    D_seperator();
     printf(" Enter your choice: ");
     
     int choice;
@@ -174,7 +174,7 @@ int PO_close_polling() {
     printf("\n [1] Yes – Close Polling \n");
     printf(" [2] No  – Cancel and Return \n");
 
-    printf("\n------------------------------------------------- \n");
+    D_seperator();
     printf(" Enter your choice: ");
     
     int choice;
@@ -211,7 +211,7 @@ int polling_login() {
     scanf("%49s", NIC);
     printf("Enter Password: ");
     scanf("%49s", password);
-    printf("-------------------------------------------------\n");
+    D_seperator();
     printf("[System] Authenticating...\n");
     if (strlen(NIC) == 10 && strcmp(password, "VOTE2025") == 0) {
         printf("Login successful!\n");
@@ -241,25 +241,25 @@ int votting_casting() {
 
     printf("\nSelect Your District: ");
     scanf("%9s", district);
-    printf("-------------------------------------------------\n");
+    D_seperator();
     
     printf("Available Parties: \n");
    
 
-    printf("-------------------------------------------------\n");
+    D_seperator();
     
     printf("Enter Party Code: ");
     scanf("%9s", party_code);
-    printf("-------------------------------------------------\n");
+    D_seperator();
     
     printf("Available Candidates in %s (District %s): \n", party_code, district);
    
-    printf("-------------------------------------------------\n");
+    D_seperator();
     
     printf("You may vote for up to 3 candidates in this party. \n");
     printf("Enter Candidate Codes (separated by commas): ");
     scanf("%99s,%99s,%99s", candidate_codes);
-    printf("-------------------------------------------------\n");
+    D_seperator();
     
     printf("Confirm Vote for: \n");
     
@@ -268,10 +268,10 @@ int votting_casting() {
     printf("(Y/N): ");
     scanf(" %c", &confirm);
 
-    printf("-------------------------------------------------\n");
+    D_seperator();
     printf("[System] Vote successfully cast!\n");
     printf("[System] Thank you for voting.\n");
-    printf("-------------------------------------------------\n");
+    D_seperator();
     printf("Redirecting to Main Menu...\n");
     for (int i = 0; i <= 10; i++) {
             printf(".");
@@ -291,18 +291,20 @@ int public_nomination_list() {
     printf("[3] P789 - National Peoples Alliance \n");
     printf("[0] Back to Main Menu \n");
     
-    printf("\n------------------------------------------------- \n");
+    D_seperator();
     printf("Enter Party Code to View Candidates: ");
     
     char party_code[10];
     scanf("%9s", party_code);
-    printf("-------------------------------------------------\n");
+    D_seperator();
 
-    printf("-------------------------------------------------\n");
+    D_seperator();
     //Press [Enter] to return to Party Selection...
     printf("press [Enter] to return to Party Selection...");
     return 0;   
 }
+        
+      
     
 
 int election_results_menu() {
@@ -316,7 +318,7 @@ int election_results_menu() {
     printf("[3] Rejected Party \n");
     printf("[0] Back to Main Menu \n");
     
-    printf("\n------------------------------------------------- \n");
+    D_seperator();
     printf("Enter District Code to View Results: ");
     
     int choice;
@@ -354,18 +356,50 @@ int election_results_district_view() {
     printf("[3] D003 - Kandy \n");
     printf("[0] Back to Election Results Menu \n");
     
-    printf("\n------------------------------------------------- \n");
+    D_seperator();
     printf("Enter District Code to View Results: ");
     
     char district_code[10];
     scanf("%9s", district_code);
-    printf("-------------------------------------------------\n");
+    D_seperator();
 
-    printf("-------------------------------------------------\n");
+    D_seperator();
     //Press [Enter] to return to District Selection...
     printf("press [Enter] to return to District Selection...");
     return 0;   
 }
+
+
+int NATIONAl_ELECTED(){
+    E_seperator();
+    printf("\tUNITY NATIONAL PARTY (P123) ELECTED MPs");
+    E_seperator();
+
+    printf("DISTRICT: Colombo (D001) = Seats Won: 6 ");
+    printf("------------------------------------------------- \n");
+    printf("Candidate Name      Candidate Code   Preference Votes   Status \n");
+    printf("------------------------------------------------- \n");
+    printf("Mr. A. Perera       C001             25,430             Elected \n");
+    printf("Ms. B. Silva        C002             23,120             Elected \n");
+    printf("Mr. R. Fernando     C003             19,870             Elected \n");
+    printf("Ms. D. Kumari       C004             18,530             Elected \n");
+    printf("Mr. L. Jayasinghe   C005             17,990             Elected \n");
+    printf("Mr. K. Wickrama     C006             16,750             Elected \n");
+    printf("------------------------------------------------- \n");
+    printf("DISTRICT: Gampaha (D002) = Seats Won: 5 \n");
+    printf("------------------------------------------------- \n");
+    printf("Candidate Name      Candidate Code   Preference Votes   Status \n");
+    printf("------------------------------------------------- \n");
+    printf("Ms. S. Fernando     C021             22,300             Elected \n");
+    printf("Mr. J. Silva        C022             21,880             Elected \n");
+    printf("Mr. T. Perera       C023             19,670             Elected \n");
+    printf("Mr. D. Bandara      C024             18,540             Elected \n");
+    printf("Ms. W. Kumari       C025             16,930             Elected \n");
+    printf("------------------------------------------------- \n");
+    printf("Press [Enter] to return to Party Summary...");
+    return 0;   
+    
+} 
 
 int UI_election_admin(){
     E_seperator();
@@ -402,7 +436,6 @@ int UI_election_admin(){
         
         }
 
-        return 0;
+
 
 }     
-    

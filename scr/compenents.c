@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "custerm.h"
+#include "custom.h"
 
 int main(); // Forward declaration of main
 
