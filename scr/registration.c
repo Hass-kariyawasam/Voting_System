@@ -12,10 +12,10 @@ void voter_registration() {
     char citizenship;
     char password[50], confirmPassword[50];
     char districtCode[10];
-    char errornic[50]; 
-    char errorage[50]; 
-    char errorcitiy[50];
-    char errorpass[50];  
+    char errornic[50] = ""; 
+    char errorage[50] = ""; 
+    char errorcitiy[50] = "";
+    char errorpass[50] = "";  
 
     E_seperator();
     printf("\tVOTER REGISTRATION\n");
