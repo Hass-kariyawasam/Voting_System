@@ -30,10 +30,10 @@ int main_menu() {
             admin_panel();
             break;
         case 2:
-            
+            voter_reg();
             break;
         case 3:
-            
+            candidate_reg()
             break;
         case 4:
            polling_login();
@@ -451,8 +451,8 @@ int UI_party_admin(){
 
     int choice;
         printf("\n[1] SUBMIT NOMINATION LISTt\n");
-        printf("[2] Logout\n");
-        E_seperator();
+        printf("[0] Logout\n");
+        D_seperator();
 
         printf("Enter your choice:");
         scanf("%d",&choice);
@@ -461,19 +461,14 @@ int UI_party_admin(){
                 nomination();
             break;
 
-            case 2:
+            case 0:
                 admin_panel();
             break;
             default:
             printf("invalid input");
+              admin_panel();
         }
-
-        printf("Confirm Submission? (Y/N):Y ");
-        printf("\nSaving Nomination list...");
-        printf("\nNomination list  successfully submitted to Ro!");
-        D_seperator();
-        printf("Redirecting to Party Admin Menu...");
-         UI_party_admin()
+              
     }
 
          int nomination(){
@@ -489,7 +484,14 @@ int UI_party_admin(){
             scanf("%d",& code);
             printf("Enter party name:\t");
             scanf(" %s", name);
-            number();
+            D_seperator();
+
+            printf("Confirm Submission? (Y/N):Y ");
+            printf("\nSaving Nomination list...");
+            printf("\nNomination list  successfully submitted to Ro!");
+            D_seperator();
+            printf("Redirecting to Party Admin Menu...");
+            UI_party_admin()
 
          }
           
@@ -500,7 +502,7 @@ int UI_party_admin(){
 
  //TG2082-voter registation
 
-   int UI_voter(){
+   int  voter_reg(){
     E_seperator();
     printf("VOTER REGISTRATION\n");
     E_seperator();
@@ -530,25 +532,86 @@ int UI_party_admin(){
             scanf("%d", &pwd);
             printf("\nEnter District Code:\t");
             scanf("%d", &D_code);
+
+
+             D_seperator();
+             printf("[System] Saving voter record....\n");
+             printf("[System] Registration successfully!\n"); 
+             D_seperator();
+             printf("Redircting to main Menu...\n");  
+            
                             
                             
         } else {
+        D_seperator();
          printf("you are not eligible to vote");}
                         
     } else {
+        D_seperator();
         printf("you are not eligible to vote");}
         
-    D_seperator();
-    printf("[System] Saving voter record....\n");
-    printf("[System] Registration successfully!\n"); 
-    D_seperator();
-    printf("Redircting to main Menu...\n");  
-    admin_panel();
+      admin_panel();
     }
-return 0;
-}   
+     
 
 
+
+
+//TG2082-candidate registation
+    int candidate_reg(){
+
+     E_seperator();
+     printf("\tCANDIDATE REGISTRATION\n");
+     E_seperator();
+
+     int nic, Age, pwd, D_code,P_code;
+     char name[20], citizen[2];
+
+      printf("\nEnter NIC Number:\t");
+      scanf("%d", &nic);
+
+      printf("\nEnter Candidate Name:\t");
+      scanf(" %s", name);
+
+      printf("\nEnter Age:\t");
+      scanf("%d", &Age);
+      if (Age>=18){
+       
+
+        printf("\nCitizenship (Y/N):\t");
+        scanf(" %1s", citizen);
+         if (citizen[0] != 'N' && citizen[0] != 'N'){
+               
+
+             printf("\nCreate Password:\t");
+             scanf("%d", &pwd);
+
+             printf("\nEnter District Code:\t");
+             scanf("%d", &D_code);
+
+             printf("\nEnter Party Code:\t");
+             scanf("%d", &P_code);
+              
+             
+             D_seperator();
+             printf("[System] Saving candidate record....\n");
+             printf("[System] Registration successfully!\n"); 
+             D_seperator();
+             printf("Redircting to main Menu...\n");  
+                    }
+                    
+
+        else {
+        D_seperator();    
+        printf("you are not eligible to candidate");
+                 }
+      
+    
+     } else {
+         printf("you are not eligible to candidate");
+        }
+         admin_panel();
+    }
 
 
 

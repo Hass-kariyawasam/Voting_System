@@ -34,4 +34,5 @@ int party_agent_observer();
 
 int UI_party_admin();
 int nomination();
-int UI_voter();
+int voter_reg();
+int candidate_reg();
