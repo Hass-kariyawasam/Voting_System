@@ -1,24 +1,26 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h> //screen clear
 #include "custom.h"
 
-int main(); // Forward declaration of main
+int main(); 
+
 
 // main menu
-int main_menu()
-{
+int main_menu(){
+
     E_seperator();
     printf("\tWelcome to Sri Lanka Parliament\n");
     printf("\t\tVoting System 2025\n");
     E_seperator();
 
-    printf("[1] Admin Control Panel\n");
-    printf("[2] Voter Registration\n");
-    printf("[3] Candidate Registration\n");
-    printf("[4] Vote Casting (Polling)\n");
-    printf("[5] View Nominations List\n");
-    printf("[6] Results & Publications\n");
-    printf("[0] Exit System\n");
+    printf(" [1] Admin Control Panel\n");
+    printf(" [2] Voter Registration\n");
+    printf(" [3] Candidate Registration\n");
+    printf(" [4] Vote Casting (Polling)\n");
+    printf(" [5] View Nominations List\n");
+    printf(" [6] Results & Publications\n");
+    printf(" [0] Exit System\n");
 
     printf("\n----------------------------------------------\n");
     printf("Enter your choice: ");
@@ -26,182 +28,46 @@ int main_menu()
     int choice;
     scanf("%d", &choice);
 
-    switch (choice)
-    {
+    switch (choice){
     case 1:
+        system("cls");
         admin_panel();
+
         break;
     case 2:
-        voter_reg();
+        system("cls");
+        voter_registration();
         break;
     case 3:
-        candidate_reg();
+        system("cls");
+        candidate_registration();
          break;
     case 4:
+        system("cls");
         polling_login();
         break;
     case 5:
-
+        system("cls");
+        public_nomination_list();
         break;
     case 6:
-
+        system("cls");
+        election_results_menu();
         break;
     case 0:
+        system("cls");
         printf("Exiting system...\n");
         return 0; // Exit the program
     default:
+        
         printf("Invalid choice. Please try again.\n");
-
+        time_delay();
+        system("cls");
+        main_menu();
         break;
     }
 
-    return 0; // Return to main menu
-}
-
-// admin panel
-int admin_panel()
-{
-    E_seperator();
-    printf("\tADMIN CONTROL PANEL 2025\n");
-    E_seperator();
-
-    printf("\n [1] Returning Officer (RO) \n");
-    printf(" [2] Election Admin \n");
-    printf(" [3] Presiding Officer (PO) \n");
-    printf(" [4] Party Agent / Observer \n");
-    printf(" [0] Back to Main Menu \n");
-
-    D_seperator();
-    printf(" Enter your choice: ");
-
-    int choice;
-    scanf("%d", &choice);
-
-    switch (choice)
-    {
-    case 1:
-        admin_loging("RETURNING"); // Call RO login
-        break;
-    case 2:
-        admin_loging("ELECTION"); // Call Election Admin panel
-        break;
-    case 3:
-        admin_loging("PRESIDING"); // Call PO panel
-        break;
-    case 4:
-        admin_loging("PARTY_ADMIN"); // Call Party Agent/Observer panel
-        break;
-    case 0:
-        main_menu(); // Return to main menu
-        return 0;
-    default:
-        printf("Invalid choice. Please try again.\n");
-        break;
-    }
-
-    return 0; // Return to admin panel
-}
-
-// Presiding Officer (PO) panel
-int UI_PO()
-{
-    E_seperator();
-    printf("\t\tPRESIDING OFFICER PANEL\n");
-    E_seperator();
-    printf("\n [1] Open Polling \n");
-    printf(" [2] Close Polling \n");
-    printf(" [0] Back to Admin Control Panel \n");
-    D_seperator();
-    printf(" Enter your choice: ");
-
-    int choice;
-    scanf("%d", &choice);
-
-    switch (choice)
-    {
-    case 1:
-        PO_open_polling();
-        break;
-    case 2:
-
-        PO_close_polling();
-        break;
-    case 0:
-        UI_PO();
-        return 0;
-    default:
-        printf("Invalid choice. Please try again.\n");
-        break;
-    }
-
-    return 0;
-}
-
-// PO functions
-int PO_open_polling()
-{
-    E_seperator();
-    printf("\t\tOPEN POLLING\n");
-    E_seperator();
-
-    printf("\n Confirm action: Do you want to OPEN polling? \n");
-
-    printf("\n [1] Yes Open Polling \n");
-    printf(" [2] No Cancel and Return \n");
-
-    D_seperator();
-    printf(" Enter your choice: ");
-
-    int choice;
-    scanf("%d", &choice);
-
-    switch (choice)
-    {
-    case 1:
-
-        break;
-    case 2:
-        UI_PO(); // Return to PO panel
-        return 0;
-    default:
-        printf("Invalid choice. Please try again.\n");
-        break;
-    }
-
-    return 0;
-}
-
-int PO_close_polling()
-{
-    E_seperator();
-    printf("\t\tCLOSE POLLING\n");
-    E_seperator();
-
-    printf("\n Confirm action: Do you want to CLOSE polling? \n");
-
-    printf("\n [1] Yes – Close Polling \n");
-    printf(" [2] No  – Cancel and Return \n");
-
-    D_seperator();
-    printf(" Enter your choice: ");
-
-    int choice;
-    scanf("%d", &choice);
-
-    switch (choice)
-    {
-    case 1:
-
-        break;
-    case 2:
-        UI_PO();
-        return 0;
-    default:
-        printf("Invalid choice. Please try again.\n");
-        break;
-    }
-
-    return 0;
+    return 0; // Return to main menu 
 }
 
 int polling_login()
@@ -219,16 +85,21 @@ int polling_login()
     scanf("%49s", password);
     D_seperator();
     printf("[System] Authenticating...\n");
-    if (strlen(NIC) == 10 && strcmp(password, "VOTE2025") == 0)
-    {
+    if (strcmp(NIC, "VOTE2025") == 0 && strcmp(password, "VOTE2025") == 0)
+    {   
         printf("Login successful!\n");
+        time_delay();
+        system("cls");
         votting_casting();
         return 1;
     }
     else
     {
         printf("Invalid NIC or Password. Please try again.\n");
-        main_menu();
+        time_delay();
+        system("cls");
+        
+        polling_login();
         return 0;
     }
 
@@ -238,15 +109,17 @@ int polling_login()
 int votting_casting()
 {
     E_seperator();
-    printf("\t\tVOTING CASTING PANEL\n");
+    printf("\tVOTING CASTING PANEL\n");
     E_seperator();
 
     char district[10];
     char party_code[10];
-    char candidate_codes[100];
+    char candidate_codes1[100];
+    char candidate_codes2[100];
+    char candidate_codes3[100];
     char confirm;
 
-    printf("\nSelect Your District: ");
+    printf("\nSelect Your District code : ");
     scanf("%9s", district);
     D_seperator();
 
@@ -263,8 +136,22 @@ int votting_casting()
     D_seperator();
 
     printf("You may vote for up to 3 candidates in this party. \n");
-    printf("Enter Candidate Codes (separated by commas): ");
-    scanf("%99s,%99s,%99s", candidate_codes);
+   
+
+
+    printf("Enter 1st Candidate Code: ");
+    scanf("%99s", candidate_codes1);
+
+    printf("Enter 2nd Candidate Code: ");
+    scanf("%99s", candidate_codes2);
+
+    printf("Enter 3rd Candidate Code: ");
+    scanf("%99s", candidate_codes3);
+    D_seperator();
+   
+    printf("Candidate Codes 1 --> %s\n",candidate_codes1);
+    printf("Candidate Codes 2 --> %s\n",candidate_codes2);
+    printf("Candidate Codes 3 --> %s\n",candidate_codes3);
     D_seperator();
 
     printf("Confirm Vote for: \n");
@@ -277,12 +164,11 @@ int votting_casting()
     printf("[System] Thank you for voting.\n");
     D_seperator();
     printf("Redirecting to Main Menu...\n");
-    for (int i = 0; i <= 10; i++)
-    {
-        printf(".");
-        for (int j = 0; j < 100000000; j++)
-            ; // Inner delay loop
-    }
+    
+    pressEnterToContinue();
+    time_delay();
+    system("cls");
+    main_menu();
 }
 
 int public_nomination_list()
@@ -292,35 +178,35 @@ int public_nomination_list()
     E_seperator();
 
     printf("\nAvailable Parties: \n");
-    printf("[1] P123 - Unity National Party \n");
-    printf("[2] P456 - Peoples Freedom Front \n");
-    printf("[3] P789 - National Peoples Alliance \n");
-    printf("[0] Back to Main Menu \n");
+    printf(" [1] P123 - Unity National Party \n");
+    printf(" [2] P456 - Peoples Freedom Front \n");
+    printf(" [3] P789 - National Peoples Alliance \n");
+    printf(" [0] Back to Main Menu \n");
 
     D_seperator();
     printf("Enter Party Code to View Candidates: ");
-
     char party_code[10];
     scanf("%9s", party_code);
+
     D_seperator();
 
     D_seperator();
-    // Press [Enter] to return to Party Selection...
-    printf("press [Enter] to return to Party Selection...");
-    return 0;
+    printf("Redirecting to Main Menu...\n");
+    time_delay();
+    system("cls");
+    main_menu();
 }
 
 int election_results_menu()
 {
     E_seperator();
-    printf("\t\tELECTION RESULTS MENU 2025\n");
+    printf("\tELECTION RESULTS MENU 2025\n");
     E_seperator();
 
     printf("\nAvailable Districts: \n");
-    printf("[1] District-wise Results \n");
-    printf("[2] Party Detail View \n");
-    printf("[3] Rejected Party \n");
-    printf("[0] Back to Main Menu \n");
+    printf(" [1] District-wise Results \n");
+    printf(" [2] Party Detail View \n");
+    printf(" [0] Back to Main Menu \n");
 
     D_seperator();
     printf("Enter District Code to View Results: ");
@@ -331,36 +217,42 @@ int election_results_menu()
     switch (choice)
     {
     case 1:
-
+        system("cls");
+        election_results_district_view();
         break;
     case 2:
-
+        system("cls");
+        election_results_party_view();
         break;
-    case 3:
-
-        break;
+    
     case 0:
+        system("cls");
         main_menu(); // Return to main menu
-        return 0;
+
+        
     default:
+        
         printf("Invalid choice. Please try again.\n");
+        time_delay();
+        system("cls");
+        election_results_menu();
         break;
     }
 
-    return 0; // Return to election results menu
+    return 0; 
 }
 
 int election_results_district_view()
 {
     E_seperator();
-    printf("\t\tELECTION RESULTS DISTRICT VIEW 2025\n");
+    printf("\tELECTION RESULTS DISTRICT VIEW 2025\n");
     E_seperator();
 
-    printf("\nAvailable Districts: \n");
-    printf("[1] D001 - Colombo \n");
-    printf("[2] D002 - Gampaha \n");
-    printf("[3] D003 - Kandy \n");
-    printf("[0] Back to Election Results Menu \n");
+    printf("\n Available Districts: \n");
+    printf(" [1] D001 - Colombo \n");
+    printf(" [2] D002 - Gampaha \n");
+    printf(" [3] D003 - Kandy \n");
+    printf(" [0] Back to Election Results Menu \n");
 
     D_seperator();
     printf("Enter District Code to View Results: ");
@@ -371,11 +263,15 @@ int election_results_district_view()
 
     D_seperator();
     // Press [Enter] to return to District Selection...
-    printf("press [Enter] to return to District Selection...");
+    printf("press [Enter] to return to District Selection...\n");
+    getchar();   // waits until ENTER is pressed
+    time_delay();
+    system("cls");
+    election_results_menu();
     return 0;
 }
 
-int NATIONAl_ELECTED()
+int election_results_party_view()
 {
     E_seperator();
     printf("\tUNITY NATIONAL PARTY (P123) ELECTED MPs");
@@ -403,389 +299,16 @@ int NATIONAl_ELECTED()
     printf("Ms. W. Kumari       C025             16,930             Elected \n");
     printf("------------------------------------------------- \n");
     printf("Press [Enter] to return to Party Summary...");
+    getchar();   // waits until ENTER is pressed
+    time_delay();
+    system("cls");
+    election_results_menu();
+    
     return 0;
 }
 
-int UI_election_admin()
-{
-    E_seperator();
-    printf("\t\tELECTION ADDMIN PANNEL\n");
-    E_seperator();
-
-    printf("[1] District Registration \n");
-    printf("[2] Party Registration \n");
-    printf("[3] Final Result Declaration \n");
-    printf("[0] Back to Admin Control Panel\n");
-
-    D_seperator();
-
-    printf("Enter your choice: ");
-    int choice;
-
-    scanf("%d", &choice);
-
-    switch (choice)
-    {
-    case 1:
-        //*********************************************************************** */
-        break;
-
-    case 2:
-        //********************************************************************* */
-        break;
-    case 3:
-        //******************************************************************** */
-        break;
-
-    case 4:
-        //******************************************************************** */
-        break;
-    }
-}
 
 // TG2082-party admin panel
 
-int UI_party_admin()
-{
-    E_seperator();
-    printf("\t\tPARTY ADMIN PANEL\n");
-    E_seperator();
 
-    int choice;
-    printf("\n[1] SUBMIT NOMINATION LISTt\n");
-    printf("[0] Logout\n");
-    D_seperator();
-
-    printf("Enter your choice:");
-    scanf("%d", &choice);
-    switch (choice)
-    {
-    case 1:
-        nomination();
-        break;
-
-    case 0:
-        admin_panel();
-        break;
-    default:
-        printf("invalid input");
-        admin_panel();
-    }
-}
-
-int nomination()
-{
-
-    E_seperator();
-    printf("SUBMIT NOMINATION LIST\n");
-    E_seperator();
-
-    int code;
-    char name[20];
-
-    printf("\nEnter party code:\t");
-    scanf("%d", &code);
-    printf("Enter party name:\t");
-    scanf(" %s", name);
-    D_seperator();
-
-    printf("Confirm Submission? (Y/N):Y ");
-    scanf(" %*c");
-    printf("\nSaving Nomination list...");
-    printf("\nNomination list  successfully submitted to Ron");
-    D_seperator();
-    printf("Redirecting to Party Admin Menu...\n");
-    UI_party_admin();
-}
-
-// TG2082-voter registation
-
-int voter_reg()
-{
-    E_seperator();
-    printf("VOTER REGISTRATION\n");
-    E_seperator();
-
-    int nic, Age, pwd, D_code;
-    char name[20], citizen[2];
-
-    printf("\nEnter NIC Number:\t");
-    scanf("%d", &nic);
-
-    printf("\nEnter Full Name:\t");
-    scanf(" %s", name);
-
-    printf("\nEnter Age:\t");
-    scanf("%d", &Age);
-    if (Age >= 18)
-    {
-
-        printf("\nCitizenship (Y/N):\t");
-        scanf(" %1s", citizen);
-        if (citizen[0] != 'N' && citizen[0] != 'N')
-        {
-
-            printf("\nCreate Password:\t");
-            scanf("%d", &pwd);
-            printf("\nEnter District Code:\t");
-            scanf("%d", &D_code);
-
-            D_seperator();
-            printf("[System] Saving voter record....\n");
-            printf("[System] Registration successfully!\n");
-            D_seperator();
-            printf("Redircting to main Menu...\n");
-        }
-        else
-        {
-            D_seperator();
-            printf("you are not eligible to vote");
-        }
-    }
-    else
-    {
-        D_seperator();
-        printf("you are not eligible to vote");
-    }
-
-    admin_panel();
-}
-
-// TG2082-candidate registation
-int candidate_reg(){
-
-    E_seperator();
-    printf("\tCANDIDATE REGISTRATION\n");
-    E_seperator();
-
-    scanf("%d",&choice);
-
-    switch(choice){
-        case 1:
-
-            //*********************************************************************** */
-            break;
-        
-        case 2:
-            //********************************************************************* */
-            break;
-        case 3:
-            //******************************************************************** */
-            break;
-
-        case 4:
-            //******************************************************************** */
-            break;
-
-        
-        }
-}
-
-
-
- int district_registration(){
-    E_seperator();
-    printf("\t\tDostrict Registration\n");
-    E_seperator();
-
-    printf("[1] Add New District \n");
-    printf("[2] Display All Districts \n");
-    printf("[0] Back to Election Admin Panel \n");
-
-    D_seperator();
-    printf("Enter your choice: ");
-    int choice;
-    scanf("%d",&choice);
-
-        switch (choice){
-            case 1:
-               add_new_district();
-                break;
-            case 2:
-               display_all_districts();
-                break;
-            case 0:
-                UI_election_admin();
-            
-            default:
-            printf("Invalid choice. Please try again.\n");
-            break;
-
-        }
-    return 0;
- }
-
- int add_new_district(){
-    E_seperator();
-    printf("\t\tAdd New District\n");
-    E_seperator();
-
-    char district_name[20];
-    char district_code[10];
-
-    printf("Enter District Name: ");
-    scanf("%s", district_name);
-    printf("Enter District Code: ");
-    scanf("%s", district_code);
-
-    printf("-------------------------------------------------\n");
-    printf("[System] New district '%s' with code '%s' added successfully!\n", district_name, district_code);
-    printf("-------------------------------------------------\n");
-
- printf("Enter your choice: ");
-    int choice;
-    scanf("%d",&choice);
-
-        switch (choice){
-        
-            case 0:
-                district_registration();
-            
-            default:
-            printf("Invalid choice. Please try again.\n");
-            break;
-
-        }
-
-
-    return 0;
-
- }
-
- int display_all_districts(){
-    E_seperator();
-    printf("\t\tAll Registered Districts\n");
-    E_seperator();
-    printf("-------------------------------------------------\n");
-
-    //need to add registered districts from database
-
-
- }      
-
-int party_registration(){
-    E_seperator();
-    printf("\t\tParty Registration\n");
-    E_seperator();
-
-    char party_name[50];
-    char party_code[10];
-
-    printf("Enter Party Name: ");
-    scanf("%s", party_name);
-    printf("Enter Party Code: ");
-    scanf("%s", party_code);
-
-    printf("-------------------------------------------------\n");
-    printf("[System] New party '%s' with code '%s' registered successfully!\n", party_name, party_code);
-    printf("-------------------------------------------------\n");
-
-     printf("Enter your choice: ");
-    int choice;
-    scanf("%d",&choice);
-
-        switch (choice){
-            
-            case 0:
-                district_registration();
-            
-            default:
-            printf("Invalid choice. Please try again.\n");
-            break;
-
-        }
-    
-    return 0;
-
-}
-int display_registerd_parties(){
-    E_seperator();
-    printf("\t\tAll Registered Parties\n");
-    E_seperator();
-    printf("-------------------------------------------------\n");
-
-    //need to add registered parties from database
-return 0;  
-}   
- int final_result_declaration(){
-    E_seperator();
-    printf("\t\tFinal Result Declaration\n");
-    E_seperator();
-
-    printf("[1] Collect District Results \n");
-    printf("[2] Generate Final Result Summary \n");
-    printf("[0] Back to Election Admin Panel \n");
-
-    D_seperator();
-    printf("Enter your choice: ");
-    int choice;
-    scanf("%d",&choice);
-
-        switch (choice){
-            case 1:
-               //*******************COLLECT DISTRICT RESULT**************************************************** 
-                break;
-            case 2:
-               //********************enerate Final Result Summary*************************************************** 
-                break;
-            case 0:
-                UI_election_admin();
-            
-            default:
-            printf("Invalid choice. Please try again.\n");
-            break;
-
-        }
-    return 0;  
- }  
-
-
-    int nic, Age, pwd, D_code, P_code;
-    char name[20], citizen[2];
-
-
-    printf("\nEnter NIC Number:\t");
-    scanf("%d", &nic);
-
-    printf("\nEnter Candidate Name:\t");
-    scanf(" %s", name);
-
-    printf("\nEnter Age:\t");
-    scanf("%d", &Age);
-    if (Age >= 18)
-    {
-
-        printf("\nCitizenship (Y/N):\t");
-        scanf(" %1s", citizen);
-        if (citizen[0] != 'N' && citizen[0] != 'N')
-        {
-
-            printf("\nCreate Password:\t");
-            scanf("%d", &pwd);
-
-            printf("\nEnter District Code:\t");
-            scanf("%d", &D_code);
-
-            printf("\nEnter Party Code:\t");
-            scanf("%d", &P_code);
-
-            D_seperator();
-            printf("[System] Saving candidate record....\n");
-            printf("[System] Registration successfully!\n");
-            D_seperator();
-            printf("Redircting to main Menu...\n");
-        }
-
-        else
-        {
-            D_seperator();
-            printf("you are not eligible to candidate");
-        }
-    }
-    else
-    {
-        printf("you are not eligible to candidate");
-    }
-    admin_panel();
-}
 
