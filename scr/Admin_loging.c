@@ -53,7 +53,7 @@ int admin_loging(const char *user) {
             UI_PO();
 
         } else if (strcmp(user, "PARTY_ADMIN") == 0){
-            
+            UI_party_admin();
         }  else {
             printf("ERRO Unknown user type.\n");
             admin_panel();

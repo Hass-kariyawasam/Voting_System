@@ -439,3 +439,124 @@ int UI_election_admin(){
 
 
 }     
+
+
+
+//TG2082-party admin panel
+
+int UI_party_admin(){
+    E_seperator();
+    printf("\t\tPARTY ADMIN PANEL\n");
+    E_seperator();
+
+    int choice;
+        printf("\n[1] SUBMIT NOMINATION LISTt\n");
+        printf("[2] Logout\n");
+        E_seperator();
+
+        printf("Enter your choice:");
+        scanf("%d",&choice);
+        switch (choice){
+            case 1:
+                nomination();
+            break;
+
+            case 2:
+                admin_panel();
+            break;
+            default:
+            printf("invalid input");
+        }
+
+        printf("Confirm Submission? (Y/N):Y ");
+        printf("\nSaving Nomination list...");
+        printf("\nNomination list  successfully submitted to Ro!");
+        D_seperator();
+        printf("Redirecting to Party Admin Menu...");
+         UI_party_admin()
+    }
+
+         int nomination(){
+
+            E_seperator();
+            printf("SUBMIT NOMINATION LIST");
+            E_seperator();
+
+           int code;
+           char name[20];
+
+            printf("\nEnter party code:\t");
+            scanf("%d",& code);
+            printf("Enter party name:\t");
+            scanf(" %s", name);
+            number();
+
+         }
+          
+
+            
+             
+         
+
+ //TG2082-voter registation
+
+   int UI_voter(){
+    E_seperator();
+    printf("VOTER REGISTRATION\n");
+    E_seperator();
+
+    int nic, Age, pwd, D_code;
+    char name[20], citizen[2];
+
+    printf("\nEnter NIC Number:\t");
+    scanf("%d", &nic);
+    
+
+    printf("\nEnter Full Name:\t");
+    scanf(" %s", name);
+
+    printf("\nEnter Age:\t");
+    scanf("%d", &Age);
+    if (Age>=18){
+       
+    
+
+      printf("\nCitizenship (Y/N):\t");
+      scanf(" %1s", citizen);
+        if (citizen[0] != 'N' && citizen[0] != 'N'){
+            
+                
+            printf("\nCreate Password:\t");
+            scanf("%d", &pwd);
+            printf("\nEnter District Code:\t");
+            scanf("%d", &D_code);
+                            
+                            
+        } else {
+         printf("you are not eligible to vote");}
+                        
+    } else {
+        printf("you are not eligible to vote");}
+        
+    D_seperator();
+    printf("[System] Saving voter record....\n");
+    printf("[System] Registration successfully!\n"); 
+    D_seperator();
+    printf("Redircting to main Menu...\n");  
+    admin_panel();
+    }
+return 0;
+}   
+
+
+
+
+
+
+
+
+
+
+
+
+ 
