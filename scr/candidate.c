@@ -16,7 +16,7 @@ void number() {
 
 int main() {
     num();
-    printf("\tVOTER REGISTRATION\n");
+    printf("\tCANDIDATE REGISTRATION\n");
     num();
 
     int nic, Age, pwd, D_code,P_code;
@@ -30,7 +30,7 @@ int main() {
 
     printf("\nEnter Age:\t");
     scanf("%d", &Age);
-    if (Age>18){
+    if (Age>=18){
        
 
         printf("\nCitizenship (Y/N):\t");
@@ -46,15 +46,17 @@ int main() {
 
                       printf("\nEnter Party Code:\t");
                       scanf("%d", &P_code);
-                      number();
+                      
                     }
 
-               } else {
-         printf("you are not eligible to vote");}
-         number();
+                else {
+         printf("you are not eligible to vote");
+        }
+      
     
      } else {
-         printf("you are not eligible to vote");}
+         printf("you are not eligible to vote");
+        }
          number();
     
     

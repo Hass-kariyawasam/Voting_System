@@ -17,19 +17,18 @@ int counting_PR_dis_();
 
 
   void num() {
-         for (int i = 1; i <= 55; i++) {
-         printf("=");
-        }
-         printf("\n");
+    for (int i = 1; i <= 55; i++) {
+        printf("=");
     }
+    printf("\n");
+}
 
-    void number() {
-         for (int i = 1; i <= 55; i++) {
-         printf("-");
-        }
-         printf("\n");
+void number() {
+    for (int i = 1; i <= 55; i++) {
+        printf("-");
     }
-    
+    printf("\n");
+}
     int main (){   
       
     num();
@@ -38,87 +37,87 @@ int counting_PR_dis_();
     printf("\nPlease enter your credentials:");
 
 
-                       int Username;
-                       int Password; 
-                        printf("\nUsername:\t");
-                        scanf("%d",&Username);
-                        printf("Password:\t");
-                        scanf("%d", &Password);
+int Username;
+int Password; 
+printf("\nUsername:\t");
+scanf("%d",&Username);
+printf("Password:\t");
+scanf("%d", &Password);
 
 
-                              if (Username == 5615) {
+if (Username == 5615) {
 
-                                     if (Password == 12345) {
-                                     printf("Login Successful!\n");
-                                      number();
-
-
-                                    num();
-                                     printf("\n\tPARTY ADMIN CONTROL PANEL\n\t");
-                                    num();
-                                    
-                                     int choice;
-                                     printf("\n[1] SUBMIT NOMINATION LISTt\n");
-                                     printf("[2] Logout\n");
-                                     number();
-
-                                     printf("Enter your choice:");
-                                     scanf("%d",&choice);
+        if (Password == 12345) {
+        printf("Login Successful!\n");
+        number();
 
 
-                                      switch (choice)
-                                      {
-                                      case 1:
-                                      num();
-                                      printf("\n\tSUBMIT NOMINATION LIST\n\t");
-                                      num();
-                                                int code;
-                                                char name[20];
+      num();
+        printf("\n\tPARTY ADMIN CONTROL PANEL\n\t");
+      num();
+      
+        int choice;
+        printf("\n[1] SUBMIT NOMINATION LISTt\n");
+        printf("[2] Logout\n");
+        number();
 
-                                                printf("\nEnter party code:\t");
-                                                scanf("%d",& code);
-                                                printf("Enter party name:\t");
-                                                scanf(" %c", & name);
-                                               number();
+        printf("Enter your choice:");
+        scanf("%d",&choice);
 
 
-                                                int C_code,D_code,N_num,DOB;
-                                                char C_name[50],answer[2];
+        switch (choice)
+        {
+        case 1:
+        num();
+        printf("\n\tSUBMIT NOMINATION LIST\n\t");
+        num();
+                  int code;
+                  char name[20];
 
-                                                printf("\nEnter candidate name:\t");
-                                                scanf(" %c",C_name);
-                                                printf("\nEnter candidate code:\t");
-                                                scanf("\n%d",&C_code);
-                                                printf("\nEnter district  code:\t");
-                                                scanf("\n%d",&D_code);
-                                                printf("\nEnter NIC Number:\t");
-                                                scanf("\n%d",&N_num);
-                                                printf("\nEnter Date Of Birth:\t");
-                                                scanf("\n%d",&DOB);
-                                                number();
-                                                printf("\nAdd another candidate?  (Y/N):");
-                                                scanf(" %c",answer);
-                                         
+                  printf("\nEnter party code:\t");
+                  scanf("%d",& code);
+                  printf("Enter party name:\t");
+                  scanf(" %s", name);
+                  number();
 
-                                      
 
-                                      break;
-                                      case 2:
-                                      printf("Logout");
-                                      
+                  int C_code,D_code,N_num,DOB;
+                  char C_name[50],answer[2];
 
-                                      break;
-                                      default:
-                                      printf("invalid input");
+                  printf("\nEnter candidate name:\t");
+                  scanf("  %s\n",C_name);
+                  printf("\nEnter candidate code:\t");
+                  scanf("\n%d",C_code);
+                  printf("\nEnter district  code:\t");
+                  scanf("\n%d",&D_code);
+                  printf("\nEnter NIC Number:\t");
+                  scanf("\n%d",&N_num);
+                  printf("\nEnter Date Of Birth:\t");
+                  scanf("\n%d",&DOB);
+                  number();
+                  printf("\nAdd another candidate?  (Y/N):");
+                  scanf(" %c",answer);
+            
 
-                                     }
+        
 
-                                     } else {
-                                     printf("Invalid Password\n");
-                                   }
-                              } else {
-                                printf("Invalid Username\n");
-                              }
+        break;
+        case 2:
+        printf("Logout");
+        
+
+        break;
+        default:
+        printf("invalid input");
+
+        }
+
+        } else {
+        printf("Invalid Password\n");
+      }
+} else {
+  printf("Invalid Username\n");
+}
 
    
                             
