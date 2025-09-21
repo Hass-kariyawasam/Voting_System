@@ -400,7 +400,7 @@ int NATIONAl_ELECTED(){
     return 0;   
     
 } 
-      
+
 int UI_election_admin(){
     E_seperator();
     printf("\t\tELECTION ADDMIN PANNEL\n");
@@ -419,24 +419,25 @@ int UI_election_admin(){
 
     switch(choice){
         case 1:
-             district_registration();
+
+            //*********************************************************************** */
             break;
         
         case 2:
-            party_registration(); 
+            //********************************************************************* */
             break;
         case 3:
-            final_result_declaration();
+            //******************************************************************** */
             break;
 
         case 4:
-            UI_election_admin();
+            //******************************************************************** */
             break;
 
-
+        
         }
-    return 0;
 }
+
 
 
  int district_registration(){
@@ -594,4 +595,5 @@ return 0;
         }
     return 0;  
  }  
+
 
