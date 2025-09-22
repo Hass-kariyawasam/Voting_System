@@ -3,6 +3,7 @@
 #include <stdlib.h> //screen clear
 #include "custom.h"
 #define voter_file "../data/voters.txt"
+#define candidate_file "../data/candidates.txt"
 int main(); 
 
 void voter_registration() {
@@ -143,10 +144,10 @@ void candidate_registration(){
     char password[50], confirmPassword[50];
     char districtCode[10];
     char partyCode[10];
-    char errornic[50]; 
-    char errorage[50]; 
-    char errorcitiy[50];
-    char errorpass[50];  
+    char errornic[50] = ""; 
+    char errorage[50] = ""; 
+    char errorcitiy[50] = "";
+    char errorpass[50] = "";  
 
     // NIC
     printf("Enter NIC Number\t: ");
@@ -204,6 +205,12 @@ void candidate_registration(){
     printf("Enter Party Code\t: ");
     scanf("%9s", partyCode);
 
+    FILE *fp = fopen(candidate_file, "a");
+    if (fp == NULL) {
+        printf("Error opening file for candidates!\n");
+        exit(1);
+    }   
+
     //error handling
     if (strlen(errornic) != 0 || strlen(errorage) != 0 || strlen(errorcitiy) != 0 || strlen(errorpass) != 0){
         // There are errors
@@ -231,6 +238,8 @@ void candidate_registration(){
         main_menu();
     }
     else{
+
+    fprintf(fp, "%s|%s|%d|%c|%s|%s|%s\n", nic, Name, age, citizenship, password, districtCode, partyCode);
     // Final success
     D_seperator();
     printf("[System] Saving candidate record...\n");
