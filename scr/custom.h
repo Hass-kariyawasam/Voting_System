@@ -7,6 +7,7 @@ int D_seperator();
 int time_delay();
 int long_delay();
 void pressEnterToContinue();
+void color(int t);
 
 //UI hass
 int main_menu();

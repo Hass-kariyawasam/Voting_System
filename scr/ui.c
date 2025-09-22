@@ -2,7 +2,9 @@
 #include <string.h>
 #include <stdlib.h> //screen clear
 #include "custom.h"
-
+#include <windows.h>
+#define presiding_file "../admin/presiding_officers.txt"
+#define voter_file "../data/voters.txt"
 int main(); 
 
 
@@ -85,10 +87,49 @@ int polling_login()
     scanf("%49s", password);
     D_seperator();
     printf("[System] Authenticating...\n");
-    if (strcmp(NIC, "VOTE2025") == 0 && strcmp(password, "VOTE2025") == 0)
-    {   
+    FILE *fp = fopen(voter_file, "r");
+    if (fp == NULL) {
+        printf("Error opening file for voters!\n");
+        exit(1);
+    }
+    //get nic and password in voter file and check seperate by |
+    /*200423201902|mahee|19|Y|12|36
+200429801961|nvsh|20|y|123456|2*/
+    char line[200];
+    int found = 0;  
+    char name[100];
+    while (fgets(line, sizeof(line), fp)) {
+        char file_nic[50];
+        char file_password[50];
+        
+        // Split the line by '|'
+        char *token = strtok(line, "|");
+        if (token != NULL) {
+            strcpy(file_nic, token);
+            token = strtok(NULL, "|"); // Get name
+            strcpy(name, token);
+            token = strtok(NULL, "|"); // Skip age
+            token = strtok(NULL, "|"); // Skip citizenship
+            token = strtok(NULL, "|"); // Get password
+            if (token != NULL) {
+                strcpy(file_password, token);
+                // Remove newline character from password if present
+                file_password[strcspn(file_password, "\n")] = 0;
+                // Compare NIC and password
+                if (strcmp(NIC, file_nic) == 0 && strcmp(password, file_password) == 0) {
+                    found = 1; // Match found
+                    break;
+                }
+            }
+        }
+        
+    }
+    fclose(fp);
+    if (found) {
         printf("Login successful!\n");
         time_delay();
+        printf("Welcome, %s! Redirecting to Vote Casting Panel...\n", name);
+        pressEnterToContinue();
         system("cls");
         votting_casting();
         return 1;

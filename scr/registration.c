@@ -122,7 +122,7 @@ void voter_registration() {
     printf("[System] Registration successful!\n");
     printf("-------------------------------------------------\n");
     printf("Redirecting to Main Menu...\n");
-    system("cls");
+    
     pressEnterToContinue();
     time_delay();
     system("cls");
@@ -240,13 +240,14 @@ void candidate_registration(){
     else{
 
     fprintf(fp, "%s|%s|%d|%c|%s|%s|%s\n", nic, Name, age, citizenship, password, districtCode, partyCode);
+    fclose(fp);
     // Final success
     D_seperator();
     printf("[System] Saving candidate record...\n");
     printf("[System] Registration successful!\n");
     D_seperator();
     printf("Redirecting to Main Menu...\n");
-    system("cls");
+    
     pressEnterToContinue();
     time_delay();
     system("cls");

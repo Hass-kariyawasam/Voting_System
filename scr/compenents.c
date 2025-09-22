@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h> //screen clear
+#include <windows.h>
 #include "custom.h"
 
 int main(); // Forward declaration of main
@@ -41,4 +43,10 @@ void pressEnterToContinue() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);  // Clear any leftover input
     getchar();  // Wait for Enter
+}
+// Function to change text color in console (Windows-specific)
+void color(int t)
+{
+    HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(H,t);
 }
