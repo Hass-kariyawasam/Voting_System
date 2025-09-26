@@ -3,8 +3,12 @@
 #include <stdlib.h> //screen clear
 #include "custom.h"
 #include <windows.h>
+
 #define presiding_file "../admin/presiding_officers.txt"
 #define voter_file "../data/voters.txt"
+#define CANDIDATE_FILE "../data/candidates.txt"
+#define PARTY_FILE "../data/parties.txt"
+#define CANDI
 int main(); 
 
 
@@ -16,7 +20,7 @@ int main_menu(){
     printf("\t\tVoting System 2025\n");
     E_seperator();
 
-    printf(" [1] Admin Control Panel\n");
+    printf("\n [1] Admin Control Panel\n");
     printf(" [2] Voter Registration\n");
     printf(" [3] Candidate Registration\n");
     printf(" [4] Vote Casting (Polling)\n");
@@ -25,7 +29,7 @@ int main_menu(){
     printf(" [0] Exit System\n");
 
     printf("\n----------------------------------------------\n");
-    printf("Enter your choice: ");
+    printf(" Enter your choice: ");
 
     int choice;
     scanf("%d", &choice);
@@ -46,7 +50,7 @@ int main_menu(){
          break;
     case 4:
         system("cls");
-        polling_login();
+        poling_Asccss();
         break;
     case 5:
         system("cls");
@@ -58,11 +62,11 @@ int main_menu(){
         break;
     case 0:
         system("cls");
-        printf("Exiting system...\n");
+        printf(" Exiting system...\n");
         return 0; // Exit the program
     default:
         
-        printf("Invalid choice. Please try again.\n");
+        printf(" Invalid choice. Please try again.\n");
         time_delay();
         system("cls");
         main_menu();
@@ -71,7 +75,42 @@ int main_menu(){
 
     return 0; // Return to main menu 
 }
+int poling_Asccss(){
+    FILE *fp1 = fopen(presiding_file, "r");
+    if (fp1 == NULL) {
+        printf("Error opening file for presiding officers!\n");
+        exit(1);
+    }
+   
+    char status[10];
+    fgets(status, sizeof(status), fp1);
+    fclose(fp1);
+    if (status[0] != '1' && status[0] != '0') {
+        system("cls");
+        color(0x0c);
+        printf("Unknown\n");
+        color(0x07);
+        pressEnterToContinue();
+        system("cls");
+        main_menu();
 
+    } else if ( status[0] == '1') {
+        system("cls");
+        polling_login();
+    } else {
+        system("cls");
+        //redireting screen
+        color(0x0c);
+        printf("Pooling is not open yet...\n");
+        color(0x07);
+        pressEnterToContinue();
+        system("cls");
+        main_menu();
+        
+        
+    }
+
+}
 int polling_login()
 {
     E_seperator();
@@ -81,20 +120,22 @@ int polling_login()
     char NIC[50];
     char password[50];
 
-    printf("\nEnter NIC Number: ");
+    printf("\n Enter NIC Number\t: ");
     scanf("%49s", NIC);
-    printf("Enter Password: ");
+    printf(" Enter Password\t\t: ");
     scanf("%49s", password);
     D_seperator();
-    printf("[System] Authenticating...\n");
+   
+
+    A_delay();
+    D_seperator();
+    
     FILE *fp = fopen(voter_file, "r");
     if (fp == NULL) {
         printf("Error opening file for voters!\n");
         exit(1);
     }
-    //get nic and password in voter file and check seperate by |
-    /*200423201902|mahee|19|Y|12|36
-200429801961|nvsh|20|y|123456|2*/
+    
     char line[200];
     int found = 0;  
     char name[100];
@@ -126,21 +167,29 @@ int polling_login()
     }
     fclose(fp);
     if (found) {
-        printf("Login successful!\n");
-        time_delay();
-        printf("Welcome, %s! Redirecting to Vote Casting Panel...\n", name);
+        color(0x0a); //GREEN
+        printf("Login successful!");
+        
+        printf("\nWelcome, %s! Redirecting to Vote Casting Panel...\n", name);
+        color(0x07);
+        D_seperator();
         pressEnterToContinue();
         system("cls");
         votting_casting();
         return 1;
     }
     else
-    {
+    {   
+        
+        color(0x0c);
         printf("Invalid NIC or Password. Please try again.\n");
+        color(0x07);
+        D_seperator();
+        pressEnterToContinue();
         time_delay();
         system("cls");
         
-        polling_login();
+        main_menu();
         return 0;
     }
 
@@ -159,52 +208,158 @@ int votting_casting()
     char candidate_codes2[100];
     char candidate_codes3[100];
     char confirm;
+ 
+    
 
-    printf("\nSelect Your District code : ");
+    printf("\n Select Your District code : ");
     scanf("%9s", district);
     D_seperator();
 
-    printf("Available Parties: \n");
+    printf(" Available Parties \n");
 
+    color(0x06);
+    printf("\n  Code\t| Name\n");
+    printf("--------------------\n");
+    FILE *fp1 = fopen(PARTY_FILE, "r");
+    if (fp1 == NULL) {
+        printf("Error opening file for districts!\n");
+        exit(1);
+    }
+    
+    char line[200];
+    while (fgets(line, sizeof(line), fp1)) {
+        char *token = strtok(line, "|");
+        if (token != NULL) {
+            printf("  %s\t", token); // party Code
+            strcpy(party_code, token);
+            token = strtok(NULL, "|");
+        }
+        if (token != NULL) {
+            printf("| %s", token); //  Name
+            
+        }
+    
+       
+    }
+    color(0x07);
+    fclose(fp1);
     D_seperator();
-
-    printf("Enter Party Code: ");
+    printf(" Enter Party Code: ");
     scanf("%9s", party_code);
     D_seperator();
 
-    printf("Available Candidates in %s (District %s): \n", party_code, district);
+    printf(" Available Candidates in %s (District %s) \n", party_code, district);
+    
+    color(0x06);
+    printf("\n    District\t| Party\t | Candidate\t|  Name\n");
+    printf("    code\t| code\t | Code\t\t|\n");
+    printf("------------------------------------------------------\n");
 
+    FILE *fp2 = fopen(CANDIDATE_FILE, "r");
+    if (fp2 == NULL) {
+        printf("Error opening file for districts!\n");
+        exit(1);
+    }
+    
+    char line1[200];
+
+    while (fgets(line, sizeof(line), fp2)) {
+        char *fields[20];
+        char f_district_code[20] = "";
+        char f_party_code[20] = "";
+        char f_candi_code[20] ="";
+        char *token;
+        int count = 0;
+
+        // Tokenize by |
+        token = strtok(line, "|");
+        while (token != NULL && count < 20) {
+            fields[count++] = token;
+            token = strtok(NULL, "|");
+        }
+
+        
+        if (count >= 7) {
+            char *f_district_code = fields[count - 2]; 
+            char *f_party_code    = fields[count - 1];
+            char *f_candi_code    = fields[0];
+            char *name     = fields[2];         
+
+            // remove trailing newline from last field
+            f_party_code[strcspn(f_party_code, "\r\n")] = 0;
+            if (strcmp(f_district_code, district) == 0 && strcmp(f_party_code, party_code) == 0){
+                printf("       %s \t|   %s\t |     %s\t|  %-20s\n", f_district_code,  f_party_code,f_candi_code,name);
+            }
+        }
+    }
+    
+    color(0x07);
+    fclose(fp2);
     D_seperator();
 
-    printf("You may vote for up to 3 candidates in this party. \n");
+    printf(" You may vote for up to 3 candidates in this party \n");
    
 
 
-    printf("Enter 1st Candidate Code: ");
+    printf(" Enter 1st Candidate Code: ");
     scanf("%99s", candidate_codes1);
 
-    printf("Enter 2nd Candidate Code: ");
+    printf(" Enter 2nd Candidate Code: ");
     scanf("%99s", candidate_codes2);
 
-    printf("Enter 3rd Candidate Code: ");
+    printf(" Enter 3rd Candidate Code: ");
     scanf("%99s", candidate_codes3);
     D_seperator();
-   
-    printf("Candidate Codes 1 --> %s\n",candidate_codes1);
-    printf("Candidate Codes 2 --> %s\n",candidate_codes2);
-    printf("Candidate Codes 3 --> %s\n",candidate_codes3);
+
+    FILE *fp3 = fopen(CANDIDATE_FILE, "r");
+    if (fp2 == NULL) {
+        printf("Error opening file for districts!\n");
+        exit(1);
+    }
+
+    char line1[200];
+
+    while (fgets(line, sizeof(line), fp2)) {
+        char *fields[20];
+        char f_candi_code[20] ="";
+        char *token;
+        int count = 0;
+
+        // Tokenize by |
+        token = strtok(line, "|");
+        while (token != NULL && count < 20) {
+            fields[count++] = token;
+            token = strtok(NULL, "|");
+        }
+
+        -----------------------------------------------------------------------------------------------------------------------------------------------------------
+        මෙකනින් නැවැත්තුවේ check කරන්න candidate cods ටික
+        if (count >= 7) {
+            
+            char *f_candi_code    = fields[0];
+        }
+        if ((strcmp(f_candi_code, candidate_codes1) == 0) && (strcmp(f_candi_code, candidate_codes2)) && (strcmp(f_candi_code, candidate_codes3))){
+
+        }
+    }
+
+    printf(" Candidate Codes 1 --> %s\n",candidate_codes1);
+    printf(" Candidate Codes 2 --> %s\n",candidate_codes2);
+    printf(" Candidate Codes 3 --> %s\n",candidate_codes3);
     D_seperator();
 
-    printf("Confirm Vote for: \n");
+    printf(" Confirm Vote for: \n");
 
-    printf("(Y/N): ");
+    printf(" (Y/N): ");
     scanf(" %c", &confirm);
 
     D_seperator();
+    color(0x0a);
     printf("[System] Vote successfully cast!\n");
     printf("[System] Thank you for voting.\n");
+    color(0x07);
     D_seperator();
-    printf("Redirecting to Main Menu...\n");
+    printf(" Redirecting to Main Menu...\n");
     
     pressEnterToContinue();
     time_delay();

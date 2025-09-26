@@ -34,6 +34,16 @@ int long_delay(){
             ; // Inner delay loop
     }
 }
+int A_delay(){
+ printf("[System] Authenticating");
+    for (int i = 0; i <= 5; i++)
+    {
+        printf(".");
+        for (int j = 0; j < 80000000; j++)
+            ; // Inner delay loop
+    }
+    printf("\n");
+}
 #include <stdio.h>
 
 // Function to wait for Enter key

@@ -23,23 +23,40 @@ void voter_registration() {
     E_seperator();
     printf("\tVOTER REGISTRATION\n");
     E_seperator();
-
+    
     // NIC
-    printf("Enter NIC Number\t: ");
+    printf("\n Enter NIC Number\t: ");
     scanf("%19s", nic);
 
     if (strlen(nic) != 12) {
         strcpy(errornic, "[Error] NIC must be exactly 12 digits!");
         
     }
+    FILE *file = fopen(voter_file, "r");
+    if (file != NULL) {
+        char line[256];
+        while (fgets(line, sizeof(line), file)) {
+            char existingNIC[20];
+            sscanf(line, "%19[^|]", existingNIC);
+            if (strcmp(existingNIC, nic) == 0) {
+                strcpy(errornic, "[Error] NIC already registered!");
+                break;
+            }
+        }
+        fclose(file);
+    } else {
+        printf("Error opening file for reading!\n");
+        exit(1);
+    }
+  
     // Full Name
-    printf("Enter Full Name\t\t: ");
+    printf(" Enter Full Name\t: ");
     scanf("%99s", Name);   
     
     
 
     // Age
-    printf("Enter Age\t\t: ");
+    printf(" Enter Age\t\t: ");
     scanf("%d", &age);
     if (age < 18) {
         strcpy(errorage,"[Error] Age must be 18 or older!");
@@ -48,7 +65,7 @@ void voter_registration() {
     }
 
    // Citizenship
-    printf("Citizenship (Y/N)\t: ");
+    printf(" Citizenship (Y/N)\t: ");
     scanf(" %c", &citizenship);
 
     if (citizenship == 'y' || citizenship == 'Y') {
@@ -61,10 +78,10 @@ void voter_registration() {
 
     D_seperator();
     // Password
-    printf("Create Password\t\t: ");
+    printf(" Create Password\t: ");
     scanf("%49s", password);
 
-    printf("Confirm Password\t: ");
+    printf(" Confirm Password\t: ");
     scanf("%49s", confirmPassword);
 
     if (strcmp(password, confirmPassword) != 0) {
@@ -74,18 +91,20 @@ void voter_registration() {
     }
     D_seperator();
     // District Code
-    printf("Enter District Code\t: ");
+    printf(" Enter District Code\t: ");
     scanf("%9s", districtCode);
 
     FILE *fp = fopen(voter_file, "a");
     if (fp == NULL) {
-        printf("Error opening file for voters!\n");
+        printf(" Error opening file for voters!\n");
         exit(1);
-    }   
+    }
+    D_seperator();
+    color(0x0c); //RED
     //error handling
     if (strlen(errornic) != 0 || strlen(errorage) != 0 || strlen(errorcitiy) != 0 || strlen(errorpass) != 0){
         // There are errors
-        D_seperator();
+       
         if (strlen(errornic) != 0) {
             printf("%s\n",errornic);
         }
@@ -98,6 +117,7 @@ void voter_registration() {
         if (strlen(errorpass) != 0) {
             printf("%s\n",errorpass);
         }
+        color(0x07); //RESET
         printf("-------------------------------------------------\n");
         printf("Registration failed due to above errors.\n");
         printf("Please try again.\n");
@@ -109,7 +129,7 @@ void voter_registration() {
         main_menu();
     }
     else{
-
+         color(0x07); //RESET
     
     fprintf(fp, "%s|%s|%d|%c|%s|%s\n", nic, Name, age, citizenship, password, districtCode);
     fclose(fp);
@@ -137,43 +157,58 @@ void candidate_registration(){
     printf("\tCANDIDATE REGISTRATION\n");
     E_seperator();
     
-    char nic[20];
-    char Name[100];
-    int age;
+    char nic[20], Name[100], districtCode[10], password[50], confirmPassword[50], partyCode[10];
     char citizenship;
-    char password[50], confirmPassword[50];
-    char districtCode[10];
-    char partyCode[10];
+    int age;
+    int nextID = 1;   // default if file empty
+   
+    
     char errornic[50] = ""; 
     char errorage[50] = ""; 
     char errorcitiy[50] = "";
     char errorpass[50] = "";  
 
-    // NIC
-    printf("Enter NIC Number\t: ");
+    // ---------- NIC ----------
+    printf(" Enter NIC Number\t: ");
     scanf("%19s", nic);
-
     if (strlen(nic) != 12) {
         strcpy(errornic, "[Error] NIC must be exactly 12 digits!");
-        
+    }
+
+    // ---------- Find nextID and check duplicate NIC ----------
+    FILE *file = fopen(candidate_file, "r");
+    if (file != NULL) {
+        char line[256];
+        int currentID;
+        char existingNIC[20];
+
+        while (fgets(line, sizeof(line), file)) {
+            // Read ID and NIC from the line
+            if (sscanf(line, "%d|%19[^|]", &currentID, existingNIC) == 2) {
+                if (currentID >= nextID)
+                    nextID = currentID + 1;        // track highest ID
+                if (strcmp(existingNIC, nic) == 0)
+                    strcpy(errornic, "[Error] NIC already registered!");
+            }
+        }
+        fclose(file);
     }
     // Full Name
-    printf("Enter Full Name\t\t: ");
-    scanf("%99s", Name);   // will stop at first space
+    printf(" Enter Full Name\t: ");
+    scanf(" %99[^\n]", Name);    // allow spaces
     
     
 
     // Age
-    printf("Enter Age\t\t: ");
+    printf(" Enter Age\t\t: ");
     scanf("%d", &age);
     if (age < 18) {
         strcpy(errorage, "[Error] Age must be 18 or older!");
         
-       
     }
 
    // Citizenship
-    printf("Citizenship (Y/N)\t: ");
+    printf(" Citizenship (Y/N)\t: ");
     scanf(" %c", &citizenship);
 
     if (citizenship == 'y' || citizenship == 'Y') {
@@ -186,10 +221,10 @@ void candidate_registration(){
 
     D_seperator();
     // Password
-    printf("Create Password\t\t: ");
+    printf(" Create Password\t: ");
     scanf("%49s", password);
 
-    printf("Confirm Password\t: ");
+    printf(" Confirm Password\t: ");
     scanf("%49s", confirmPassword);
 
     if (strcmp(password, confirmPassword) != 0) {
@@ -198,23 +233,21 @@ void candidate_registration(){
         
     }
     D_seperator();
-    // District Code
-    printf("Enter District Code\t: ");
+
+     // ---------- District & Party ----------
+    printf(" Enter District Code\t: ");
     scanf("%9s", districtCode);
-    // District Code
-    printf("Enter Party Code\t: ");
+    printf(" Enter Party Code\t: ");
     scanf("%9s", partyCode);
 
-    FILE *fp = fopen(candidate_file, "a");
-    if (fp == NULL) {
-        printf("Error opening file for candidates!\n");
-        exit(1);
-    }   
 
+    D_seperator();
+
+    color(0x0c); //RED
     //error handling
     if (strlen(errornic) != 0 || strlen(errorage) != 0 || strlen(errorcitiy) != 0 || strlen(errorpass) != 0){
         // There are errors
-        D_seperator();
+       
         if (strlen(errornic) != 0) {
             printf("%s\n", errornic);
         }
@@ -227,6 +260,7 @@ void candidate_registration(){
         if (strlen(errorpass) != 0) {
             printf("%s\n", errorpass);
         }
+        color(0x07); //RESET
         D_seperator();
         printf("Registration failed due to above errors.\n");
         printf("Please try again.\n");
@@ -238,9 +272,17 @@ void candidate_registration(){
         main_menu();
     }
     else{
+    color(0x07); //RESET    
+        
+    // ---------- Save to file ----------
+    FILE *fp = fopen(candidate_file, "a");
+    if (!fp) { perror("File error"); exit(1); }
 
-    fprintf(fp, "%s|%s|%d|%c|%s|%s|%s\n", nic, Name, age, citizenship, password, districtCode, partyCode);
+    fprintf(fp, "%d|%s|%s|%d|%c|%s|%s|%s\n",
+            nextID, nic, Name, age, citizenship,
+            password, districtCode, partyCode);
     fclose(fp);
+
     // Final success
     D_seperator();
     printf("[System] Saving candidate record...\n");
