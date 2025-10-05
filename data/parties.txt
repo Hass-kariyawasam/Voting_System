@@ -1,2 +1,6 @@
 S123|SAJABA
 NPP1|NPP
+0|0
+0|0
+0|0
+225|pas

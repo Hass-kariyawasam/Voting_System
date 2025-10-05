@@ -317,9 +317,9 @@ int votting_casting()
         exit(1);
     }
 
-    char line1[200];
+    char line2[200];
 
-    while (fgets(line, sizeof(line), fp2)) {
+    while (fgets(line2, sizeof(line2), fp3)) {
         char *fields[20];
         char f_candi_code[20] ="";
         char *token;
@@ -332,8 +332,8 @@ int votting_casting()
             token = strtok(NULL, "|");
         }
 
-        -----------------------------------------------------------------------------------------------------------------------------------------------------------
-        මෙකනින් නැවැත්තුවේ check කරන්න candidate cods ටික
+        /*-----------------------------------------------------------------------------------------------------------------------------------------------------------
+        මෙකනින් නැවැත්තුවේ check කරන්න candidate cods ටික*/
         if (count >= 7) {
             
             char *f_candi_code    = fields[0];
