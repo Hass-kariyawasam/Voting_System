@@ -490,13 +490,13 @@ int UI_party_admin(){
             printf("\nSaving Nomination list...");
             printf("\nNomination list  successfully submitted to Ro!");
             D_seperator();
-            printf("Redirecting to Party Admin Menu...");
-            UI_party_admin()
+            printf("\nRedirecting to Party Admin Menu...");
+            UI_party_admin();
 
          }
           
 
-            
+
              
          
 
@@ -528,29 +528,29 @@ int UI_party_admin(){
         if (citizen[0] != 'N' && citizen[0] != 'N'){
             
                 
-            printf("\nCreate Password:\t");
-            scanf("%d", &pwd);
-            printf("\nEnter District Code:\t");
-            scanf("%d", &D_code);
+         printf("\nCreate Password:\t");
+         scanf("%d", &pwd);
+         printf("\nEnter District Code:\t");
+         scanf("%d", &D_code);
 
 
-             D_seperator();
-             printf("[System] Saving voter record....\n");
-             printf("[System] Registration successfully!\n"); 
-             D_seperator();
-             printf("Redircting to main Menu...\n");  
+         D_seperator();
+         printf("[System] Saving voter record....\n");
+         printf("[System] Registration successfully!\n"); 
+         D_seperator();
+         printf("Redircting to main Menu...\n");  
             
                             
                             
         } else {
         D_seperator();
-         printf("you are not eligible to vote");}
+        printf("you are not eligible to vote");}
                         
     } else {
         D_seperator();
         printf("you are not eligible to vote");}
         
-      admin_panel();
+    admin_panel();
     }
      
 
@@ -560,36 +560,36 @@ int UI_party_admin(){
 //TG2082-candidate registation
     int candidate_reg(){
 
-     E_seperator();
-     printf("\tCANDIDATE REGISTRATION\n");
-     E_seperator();
+    E_seperator();
+    printf("\tCANDIDATE REGISTRATION\n");
+    E_seperator();
 
-     int nic, Age, pwd, D_code,P_code;
-     char name[20], citizen[2];
+    int nic, Age, pwd, D_code,P_code;
+    char name[20], citizen[2];
 
-      printf("\nEnter NIC Number:\t");
-      scanf("%d", &nic);
+    printf("\nEnter NIC Number:\t");
+    scanf("%d", &nic);
 
-      printf("\nEnter Candidate Name:\t");
-      scanf(" %s", name);
+    printf("\nEnter Candidate Name:\t");
+    scanf(" %s", name);
 
-      printf("\nEnter Age:\t");
-      scanf("%d", &Age);
+    printf("\nEnter Age:\t");
+    scanf("%d", &Age);
       if (Age>=18){
        
 
         printf("\nCitizenship (Y/N):\t");
         scanf(" %1s", citizen);
-         if (citizen[0] != 'N' && citizen[0] != 'N'){
+        if (citizen[0] != 'N' && citizen[0] != 'N'){
                
 
-             printf("\nCreate Password:\t");
-             scanf("%d", &pwd);
+            printf("\nCreate Password:\t");
+            scanf("%d", &pwd);
 
-             printf("\nEnter District Code:\t");
-             scanf("%d", &D_code);
+            printf("\nEnter District Code:\t");
+            scanf("%d", &D_code);
 
-             printf("\nEnter Party Code:\t");
+            printf("\nEnter Party Code:\t");
              scanf("%d", &P_code);
               
              
@@ -599,7 +599,7 @@ int UI_party_admin(){
              D_seperator();
              printf("Redircting to main Menu...\n");  
                     }
-                    
+
 
         else {
         D_seperator();    
@@ -608,9 +608,10 @@ int UI_party_admin(){
       
     
      } else {
-         printf("you are not eligible to candidate");
+     D_seperator();
+     printf("you are not eligible to candidate");
         }
-         admin_panel();
+    admin_panel();
     }
 
 
