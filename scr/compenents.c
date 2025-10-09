@@ -44,7 +44,7 @@ int A_delay(){
     }
     printf("\n");
 }
-#include <stdio.h>
+
 
 // Function to wait for Enter key
 void pressEnterToContinue() {

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-
+int main(); 
 //compenents
 int E_seperator();
 int D_seperator();

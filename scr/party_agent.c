@@ -49,6 +49,7 @@ int submit_nomination(){
     E_seperator();
     printf("\tSUBMIT NOMINATION LIST\n");
     E_seperator();
+
     char pcode[20];
     
     printf("\n Registerd Partys");
@@ -67,7 +68,7 @@ int submit_nomination(){
         if (token != NULL) {
             printf("  %s\t", token); // party Code
             strcpy(pcode, token);
-            token = strtok(NULL, "|");
+            token = strtok(NULL, "-");
         }
         if (token != NULL) {
             printf("| %s", token); //  Name
@@ -88,6 +89,7 @@ int submit_nomination(){
 
     printf("\n Enter party code\t: ");
     scanf("%s", party_code);
+
     // file location creat 
     char location[100];
     sprintf(location, "../data/nomination_list/PA_%s_nomination.txt", party_code);
@@ -104,8 +106,8 @@ int submit_nomination(){
             sscanf(line, "%10[^|]", existingpartycode);
             
             if (strcmp(existingpartycode, party_code) == 0) {
-                found = 1;  // Set flag when match is found
-                break;      // Exit loop early since we found it
+                found = 1;  
+                break;     
             }
         }
         fclose(file);
@@ -120,32 +122,32 @@ int submit_nomination(){
     scanf("%9s", districtCode);
 
     // check disrick code all raday exxite
-    FILE *fp1 = fopen(DISTRICT_FILE, "r");  // Changed from PARTY_FILE
+    FILE *fp1 = fopen(DISTRICT_FILE, "r");  
     if (fp1 != NULL) {
         char line[256];
-        int found_district = 0;  // Flag for district code
+        int found_district = 0;  
         
         while (fgets(line, sizeof(line), fp1)) {
             char existingdiscode[20];
-            sscanf(line, "%19[^|]", existingdiscode);
+            sscanf(line, "%[^|]", existingdiscode);
             
             if (strcmp(existingdiscode, districtCode) == 0) {
-                found_district = 1;  // Set flag when match is found
+                found_district = 1;  
                 break;
             }
         }
-        fclose(fp1);  // FIXED: Close fp1, not 'file'
+        fclose(fp1); 
         
-        // Check AFTER the loop
+       
         if (!found_district) {
             strcpy(error_discode, " [Error] Entered district code is not registered!");
         }
     }
 
-    // Check for party code and district code errors before proceeding
+   
     if (strlen(error_partycode) != 0 || strlen(error_discode) != 0) {
         D_seperator();
-        color(0x0c); //RED
+        color(0x0c); 
         
         if (strlen(error_discode) != 0) {
             printf("%s\n", error_discode);
@@ -154,7 +156,7 @@ int submit_nomination(){
             printf("%s\n", error_partycode);
         }
         
-        color(0x07); //RESET
+        color(0x07); 
         D_seperator();
         printf(" Registration failed due to above errors.\n");
         printf(" Please try again.\n");
@@ -167,7 +169,7 @@ int submit_nomination(){
         return 0;
     }
 
-   // Loop for adding multiple candidates
+  
     char addAnother = 'Y';
     int candidateCount = 0;
     
@@ -185,11 +187,11 @@ int submit_nomination(){
         printf(" Enter NIC Number\t: ");
         scanf("%19s", nic);
         
-        //NIC check 
+        
         if (strlen(nic) != 12) {
             strcpy(errornic, " [Error] NIC must be exactly 12 digits!");
         }
-        
+       
         FILE *fp2 = fopen(P_NOMINATION_FILE, "r");
         if (fp2 != NULL) {
             char line[256];
@@ -204,23 +206,23 @@ int submit_nomination(){
             fclose(fp2);
         }
 
-        // Full Name
+       
         printf(" Enter Full Name\t: ");
         scanf(" %99[^\n]", Name);  // Read full line including spaces
 
-        // Age
+       
         printf(" Enter Age\t\t: ");
         scanf("%d", &age);
         if (age < 18) {
             strcpy(errorage, "[Error] Age must be 18 or older!");
         }
         
-        //-----------------------------------------------------------------------------
+       
         D_seperator();
         
-        //error handling for current candidate
+       
         if (strlen(errornic) != 0 || strlen(errorage) != 0) {
-            color(0x0c); //RED
+            color(0x0c); 
             
             if (strlen(errornic) != 0) {
                 printf("%s\n", errornic);
@@ -229,14 +231,14 @@ int submit_nomination(){
                 printf("%s\n", errorage);
             }
             
-            color(0x07); //RESET
+            color(0x07); 
             D_seperator();
             printf(" Candidate registration failed due to above errors.\n");
             printf(" Please try again for this candidate.\n");
             D_seperator();
         }
         else {
-            // Save candidate to file
+           
             FILE *fp3 = fopen(P_NOMINATION_FILE, "a");
             if (fp3 == NULL) {
                 printf("Error opening file for candidates!\n");
@@ -251,11 +253,11 @@ int submit_nomination(){
             color(0x0a);
             printf(" [System] Saving candidate record...\n");
             printf(" [System] Candidate #%d registered successfully!\n", candidateCount);
-            color(0x07); //RESET
+            color(0x07);
             D_seperator();
         }
         
-        // Ask if user wants to add another candidate
+      
         printf(" Do you want to add another candidate? (Y/N): ");
         scanf(" %c", &addAnother);
         
@@ -264,29 +266,13 @@ int submit_nomination(){
         }
     }
     
-    // Final confirmation
+   
     D_seperator();
     color(0x0a);
     printf("\n Total candidates registered: %d\n", candidateCount);
     color(0x07);
     D_seperator();
     
-    printf(" Confirm Submission of Nomination List? (Y/N): ");
-    char confirm;
-    scanf(" %c", &confirm);
-    
-    if (confirm == 'Y' || confirm == 'y') {
-        printf("\n [System] Saving Nomination list...\n");
-        printf(" [System] Nomination list successfully submitted to Ron!\n");
-        D_seperator();
-        color(0x0a);
-        printf(" Success! Nomination list submitted.\n");
-        color(0x07);
-    } else {
-        printf("\n [System] Submission cancelled.\n");
-    }
-    
-    D_seperator();
     printf(" Redirecting to Party Admin Menu...\n");
     pressEnterToContinue();
     time_delay();

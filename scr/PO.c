@@ -8,12 +8,10 @@
 #define DISTRICT_FILE "../data/districts.txt"
 #define PARTY_FILE "../data/parties.txt"
 #define presiding_file "../admin/presiding_officers.txt"
-int main(); 
-
 
 // Presiding Officer (PO) panel
-int UI_PO()
-{
+int UI_PO(){
+
     E_seperator();
     printf("\tPRESIDING OFFICER PANEL\n");
     E_seperator();
@@ -52,8 +50,7 @@ int UI_PO()
     scanf("%d", &choice);
     D_seperator();
 
-    switch (choice)
-    {
+    switch (choice){
     case 1:
         system("cls");
         PO_open_polling();
@@ -78,12 +75,13 @@ int UI_PO()
 }
 
 // PO functions
-int PO_open_polling()
-{
+int PO_open_polling(){
+
     E_seperator();
     printf("\tOPEN POLLING\n");
     E_seperator();
     printf(" Polling Status: ");
+
     FILE *fp1 = fopen(presiding_file, "r");
     if (fp1 == NULL) {
         printf("Error opening file for presiding officers!\n");
@@ -93,6 +91,7 @@ int PO_open_polling()
     char status[10];
     fgets(status, sizeof(status), fp1);
     fclose(fp1);
+    
     if (status[0] != '1' && status[0] != '0') {
         printf("Unknown\n");
     } else if ( status[0] == '1') {
@@ -121,8 +120,8 @@ int PO_open_polling()
         printf("Error opening file for presiding officers!\n");
         exit(1);
     }
-    switch (choice)
-    {
+
+    switch (choice){
     case 1:
         fprintf(fp, "1\n");
         fclose(fp);
@@ -155,8 +154,8 @@ int PO_open_polling()
     return 0;
 }
 
-int PO_close_polling()
-{
+int PO_close_polling(){
+    
     E_seperator();
     printf("\t\tCLOSE POLLING\n");
     E_seperator();

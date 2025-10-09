@@ -19,25 +19,25 @@ int admin_loging(const char *user) {
     printf("\t%s\n",userid);
     E_seperator(); // Call to separator function
 
-    printf("\n Please enter your credentials:\n");   
-    printf("----------------------------------------\n");
-    printf(" Username: ");
+    printf("\n Please enter your credentials \n");   
+    D_seperator();
+    printf(" Username : ");
     scanf("%49s", username);
-    printf(" Password: ");
+    printf(" Password : ");
     scanf("%49s", password);
     D_seperator();
 
     
     A_delay();
     D_seperator();
-    // Generate expected password
-    snprintf(pass, sizeof(pass), "%s123", user); // E.g., "ELECTION123"
+    // Generate password
+    snprintf(pass, sizeof(pass), "%s123", user); // E.g.,, "ELECTION123"
 
 
     if (strcmp(username, user) == 0 && strcmp(password, pass) == 0) {
-        color(0x0a);
+        color(0x0a); 
         printf(" Login successful!\n");
-        color(0x07);
+        color(0x07); 
         D_seperator();
             
         
@@ -62,7 +62,7 @@ int admin_loging(const char *user) {
             system("cls");
             UI_party_admin();
         }  else {
-            printf("ERRO Unknown user type.\n");
+            printf("Error Unknown user type.\n");
             pressEnterToContinue();
             time_delay();
             system("cls");
@@ -80,7 +80,7 @@ int admin_loging(const char *user) {
         pressEnterToContinue();
         system("cls");
         admin_panel();
-        printf("\n");
+      
     }
 
     return 0;

@@ -1,15 +1,15 @@
 #include <stdio.h>
-#include <string.h>
+#include <string.h> 
 #include <stdlib.h> //screen clear
-#include "custom.h"
-#include <windows.h>
+#include "custom.h" //cuserm file
+#include <windows.h> //color
 
+//file handling declarations
 #define presiding_file "../admin/presiding_officers.txt"
 #define voter_file "../data/voters.txt"
 #define CANDIDATE_FILE "../data/candidates.txt"
 #define PARTY_FILE "../data/parties.txt"
 #define CANDI
-int main(); 
 
 
 // main menu
@@ -28,7 +28,7 @@ int main_menu(){
     printf(" [6] Results & Publications\n");
     printf(" [0] Exit System\n");
 
-    printf("\n----------------------------------------------\n");
+    D_seperator();
     printf(" Enter your choice: ");
 
     int choice;
@@ -63,7 +63,7 @@ int main_menu(){
     case 0:
         system("cls");
         printf(" Exiting system...\n");
-        return 0; // Exit the program
+        return 0; // Exit
     default:
         
         printf(" Invalid choice. Please try again.\n");
@@ -75,10 +75,11 @@ int main_menu(){
 
     return 0; // Return to main menu 
 }
+
 int poling_Asccss(){
     FILE *fp1 = fopen(presiding_file, "r");
     if (fp1 == NULL) {
-        printf("Error opening file for presiding officers!\n");
+        printf(" [Error] opening file for presiding officers!\n");
         exit(1);
     }
    
@@ -244,6 +245,8 @@ int votting_casting()
     color(0x07);
     fclose(fp1);
     D_seperator();
+
+
     printf(" Enter Party Code: ");
     scanf("%9s", party_code);
     D_seperator();
@@ -251,8 +254,8 @@ int votting_casting()
     printf(" Available Candidates in %s (District %s) \n", party_code, district);
     
     color(0x06);
-    printf("\n    District\t| Party\t | Candidate\t|  Name\n");
-    printf("    code\t| code\t | Code\t\t|\n");
+    printf("\n    District\t|   Party\t| Candidate\t|  Name\n");
+    printf("    code\t|   code\t| Code\t\t|\n");
     printf("------------------------------------------------------\n");
 
     FILE *fp2 = fopen(CANDIDATE_FILE, "r");
@@ -288,7 +291,7 @@ int votting_casting()
             // remove trailing newline from last field
             f_party_code[strcspn(f_party_code, "\r\n")] = 0;
             if (strcmp(f_district_code, district) == 0 && strcmp(f_party_code, party_code) == 0){
-                printf("       %s \t|   %s\t |     %s\t|  %-20s\n", f_district_code,  f_party_code,f_candi_code,name);
+                printf("    %s\t\t|   %s\t|    %s\t\t|  %-20s\n", f_district_code,  f_party_code,f_candi_code,name);
             }
         }
     }
@@ -299,8 +302,6 @@ int votting_casting()
 
     printf(" You may vote for up to 3 candidates in this party \n");
    
-
-
     printf(" Enter 1st Candidate Code: ");
     scanf("%99s", candidate_codes1);
 
