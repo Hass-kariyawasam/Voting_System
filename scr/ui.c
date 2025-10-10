@@ -9,7 +9,12 @@
 #define voter_file "../data/voters.txt"
 #define CANDIDATE_FILE "../data/candidates.txt"
 #define PARTY_FILE "../data/parties.txt"
-#define CANDI
+#define POOLING_FILE "../data/pooling.txt"
+#define DISTRICT_FILE "../data/district.txt"
+
+
+int main(); 
+
 
 
 // main menu
@@ -112,13 +117,13 @@ int poling_Asccss(){
     }
 
 }
-int polling_login()
+char polling_login()
 {
     E_seperator();
     printf("\tPOLLING LOGIN PORTAL\n");
     E_seperator();
 
-    char NIC[50];
+    char NIC[15];
     char password[50];
 
     printf("\n Enter NIC Number\t: ");
@@ -160,6 +165,7 @@ int polling_login()
                 // Compare NIC and password
                 if (strcmp(NIC, file_nic) == 0 && strcmp(password, file_password) == 0) {
                     found = 1; // Match found
+                   
                     break;
                 }
             }
@@ -170,14 +176,13 @@ int polling_login()
     if (found) {
         color(0x0a); //GREEN
         printf("Login successful!");
-        
+         
         printf("\nWelcome, %s! Redirecting to Vote Casting Panel...\n", name);
         color(0x07);
         D_seperator();
         pressEnterToContinue();
         system("cls");
         votting_casting();
-        return 1;
     }
     else
     {   
@@ -198,7 +203,9 @@ int polling_login()
 }
 
 int votting_casting()
-{
+{   
+   
+
     E_seperator();
     printf("\tVOTING CASTING PANEL\n");
     E_seperator();
@@ -209,11 +216,60 @@ int votting_casting()
     char candidate_codes2[100];
     char candidate_codes3[100];
     char confirm;
- 
-    
+    char error_district_code[50] = "";
+    char user_NIC[55];
 
-    printf("\n Select Your District code : ");
-    scanf("%9s", district);
+    D_seperator();
+    printf("\n Enter Your NIC Number : ");  
+    scanf("%s39",user_NIC);
+    D_seperator();
+    color(0x0a);
+    printf(" [System] Lodding Your Data\n");
+    time_delay();
+    color(0x07);
+
+    char line[200];
+    int found = 0;  
+    char name[100];
+    char file_nic[50];
+    char file_distric_code[50];
+
+    FILE *fp = fopen(voter_file, "r");
+    if (fp != NULL){
+        
+        while (fgets(line, sizeof(line), fp)) {
+           
+
+            char *token = strtok(line, "|");
+            if (token != NULL) {
+                strcpy(file_nic, token);
+                token = strtok(NULL, "|"); // Get name
+                strcpy(name, token);
+                token = strtok(NULL, "|"); // Skip age
+                token = strtok(NULL, "|"); // Skip citizenship
+                token = strtok(NULL, "|"); // Get password
+                token = strtok(NULL, "\n"); // Get districcode
+                if (token != NULL) {
+                    strcpy(file_distric_code, token);
+                    
+                    file_distric_code[strcspn(file_distric_code, "\n")] = 0;
+                    
+                    if (strcmp(user_NIC, file_nic) == 0) {
+                        found = 1; // Match found
+                    
+                        break;
+                    }
+                }
+            }
+            
+
+        }
+    }
+    fclose(fp);
+    printf("\n NIC  is  \t\t: %s",user_NIC);
+    printf("\n Name  is  \t\t: %s",name);
+    printf("\n District code is  \t: %s\n",file_distric_code);
+    
     D_seperator();
 
     printf(" Available Parties \n");
@@ -227,9 +283,9 @@ int votting_casting()
         exit(1);
     }
     
-    char line[200];
-    while (fgets(line, sizeof(line), fp1)) {
-        char *token = strtok(line, "|");
+    char line3[200];
+    while (fgets(line3, sizeof(line3), fp1)) {
+        char *token = strtok(line3, "|");
         if (token != NULL) {
             printf("  %s\t", token); // party Code
             strcpy(party_code, token);
@@ -246,27 +302,26 @@ int votting_casting()
     fclose(fp1);
     D_seperator();
 
-
     printf(" Enter Party Code: ");
     scanf("%9s", party_code);
     D_seperator();
 
-    printf(" Available Candidates in %s (District %s) \n", party_code, district);
+    printf(" Available Candidates in %s (District %s) \n", party_code, file_distric_code);
     
     color(0x06);
     printf("\n    District\t|   Party\t| Candidate\t|  Name\n");
     printf("    code\t|   code\t| Code\t\t|\n");
     printf("------------------------------------------------------\n");
 
-    FILE *fp2 = fopen(CANDIDATE_FILE, "r");
-    if (fp2 == NULL) {
+    FILE *fp5 = fopen(CANDIDATE_FILE, "r");
+    if (fp5 == NULL) {
         printf("Error opening file for districts!\n");
         exit(1);
     }
     
     char line1[200];
 
-    while (fgets(line, sizeof(line), fp2)) {
+    while (fgets(line, sizeof(line), fp5)) {
         char *fields[20];
         char f_district_code[20] = "";
         char f_party_code[20] = "";
@@ -297,7 +352,8 @@ int votting_casting()
     }
     
     color(0x07);
-    fclose(fp2);
+    fclose(fp5);
+
     D_seperator();
 
     printf(" You may vote for up to 3 candidates in this party \n");
@@ -313,7 +369,7 @@ int votting_casting()
     D_seperator();
 
     FILE *fp3 = fopen(CANDIDATE_FILE, "r");
-    if (fp2 == NULL) {
+    if (fp3 == NULL) {
         printf("Error opening file for districts!\n");
         exit(1);
     }
@@ -354,18 +410,43 @@ int votting_casting()
     printf(" (Y/N): ");
     scanf(" %c", &confirm);
 
-    D_seperator();
-    color(0x0a);
-    printf("[System] Vote successfully cast!\n");
-    printf("[System] Thank you for voting.\n");
-    color(0x07);
-    D_seperator();
+        if(confirm == 'Y'|| confirm == 'y' ){
+            FILE *fp1 = fopen(POOLING_FILE,"a");
+            if(fp1 == NULL){
+                printf("File Error");
+                exit(1);
+            }
+            fprintf(fp1,"%s|%s|%s|%s|%s|\n",district,party_code,candidate_codes1,candidate_codes2,candidate_codes3);
+            fclose(fp1);
+
+            printf("%s|%s|%s|%s|%s|\n",district,party_code,candidate_codes1,candidate_codes2,candidate_codes3);
+        
+
+            D_seperator();
+            color(0x0a);
+
+            printf("[System] Vote successfully cast!\n");
+            printf("[System] Thank you for voting.\n");
+            color(0x07);
+            D_seperator();
+        }else {
+            printf("[System] Vote is not submitted\n");
+            D_seperator();
+        }
+
+
+    
+    
     printf(" Redirecting to Main Menu...\n");
     
     pressEnterToContinue();
     time_delay();
     system("cls");
     main_menu();
+    
+    
+
+    
 }
 
 int public_nomination_list()
