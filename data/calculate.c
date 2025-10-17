@@ -50,17 +50,7 @@ int main(){
                     }
                 }
                 
-                if (){
-                    strcpy(file_distric_code, token);
-                    
-                    file_distric_code[strcspn(file_distric_code, "\n")] = 0;
-                    
-                    if (strcmp(user_NIC, file_nic) == 0) {
-                        found = 1; // Match found
-                    
-                        break;
-                    }
-                }
+               
             
         }    
 
