@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-
+int main(); 
 //compenents
 int E_seperator();
 int D_seperator();
@@ -58,7 +58,7 @@ void candidate_registration();
 
 //poling hass
 int poling_Asccss();
-int polling_login(); // done .
+char polling_login(); // done .
 int votting_casting();
 
 

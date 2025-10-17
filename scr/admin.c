@@ -39,6 +39,7 @@ int admin_panel()
         
     }
     color(0x07); // Reset to default color
+    
     D_seperator();
     
     printf("\n [1] Returning Officer (RO) \n");

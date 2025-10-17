@@ -17,7 +17,7 @@ int D_seperator(){
     return 0;
 }
 int time_delay(){
- printf("Initializing");
+ printf(" Initializing");
     for (int i = 0; i <= 10; i++)
     {
         printf(".");
@@ -44,7 +44,7 @@ int A_delay(){
     }
     printf("\n");
 }
-#include <stdio.h>
+
 
 // Function to wait for Enter key
 void pressEnterToContinue() {
