@@ -17,7 +17,7 @@ int D_seperator(){
     return 0;
 }
 int time_delay(){
- printf("Initializing");
+ printf(" Initializing");
     for (int i = 0; i <= 10; i++)
     {
         printf(".");

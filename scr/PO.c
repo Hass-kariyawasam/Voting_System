@@ -15,7 +15,7 @@ int UI_PO(){
     E_seperator();
     printf("\tPRESIDING OFFICER PANEL\n");
     E_seperator();
-
+ 
     printf(" Polling Status: ");
     FILE *fp = fopen(presiding_file, "r");
     if (fp == NULL) {
