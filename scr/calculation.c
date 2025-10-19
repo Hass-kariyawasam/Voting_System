@@ -3,13 +3,13 @@
 #include <stdlib.h>
 
 int main() {
-    FILE *fp = fopen("pooling.txt", "r");  
+    FILE *fp = fopen("..\\data\\pooling.txt", "r");  
     if (fp == NULL) {
         printf("Input file not found!\n");
         return 1;
     }
 
-    FILE *out = fopen("calculation.txt", "w");  
+    FILE *out = fopen("..\\data\\calculation.txt", "w");  
     if (out == NULL) {
         printf("Cannot create output file!\n");
         fclose(fp);
@@ -55,7 +55,7 @@ int main() {
         for (int j = 0; j < total - i - 1; j++) {
             char p1[10], p2[10];
             int v1, v2;
-s
+
             sscanf(key[j], "%[^|]|%d", p1, &v1);
             sscanf(key[j + 1], "%[^|]|%d", p2, &v2);
 
