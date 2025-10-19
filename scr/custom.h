@@ -59,7 +59,7 @@ void candidate_registration();
 //poling hass
 int poling_Asccss();
 char polling_login(); // done .
-int votting_casting();
+int votting_casting(char *logged_in_nic);
 
 
 // NOMINATOIN LIST HASS

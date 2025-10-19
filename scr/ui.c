@@ -182,7 +182,7 @@ char polling_login()
         D_seperator();
         pressEnterToContinue();
         system("cls");
-        votting_casting();
+        votting_casting(NIC);
     }
     else
     {   
@@ -202,7 +202,7 @@ char polling_login()
     return 0;
 }
 
-int votting_casting()
+int votting_casting(char *logged_in_nic)
 {   
    
 
@@ -219,14 +219,49 @@ int votting_casting()
     char error_district_code[50] = "";
     char user_NIC[55];
 
-    D_seperator();
-    printf("\n Enter Your NIC Number : ");  
-    scanf("%s39",user_NIC);
-    D_seperator();
+   
+   strcpy(user_NIC, logged_in_nic);
+
+    FILE *fpCheck = fopen(POOLING_FILE, "r");
+    if (fpCheck != NULL) {
+    char line_check[300];
+    
+    while (fgets(line_check, sizeof(line_check), fpCheck)) {
+        char stored_nic[55];
+        
+        // Skip first 5 fields, read only the 6th field (NIC)
+        // Format: district|party|cand1|cand2|cand3|NIC|
+        int result = sscanf(line_check, "%*[^|]|%*[^|]|%*[^|]|%*[^|]|%*[^|]|%[^|]|", stored_nic);
+        
+        if (result == 1) {  // Successfully read NIC
+            stored_nic[strcspn(stored_nic, "\r\n ")] = 0;  // Clean whitespace
+            
+            if (strcmp(user_NIC, stored_nic) == 0) {
+                fclose(fpCheck);
+                system("cls");
+                color(0x0c);
+                E_seperator();
+                printf("\tALREADY VOTED!\n");
+                E_seperator();
+                printf("\n You have already cast your vote.\n");
+                printf(" Each voter can only vote once.\n");
+                color(0x07);
+                D_seperator();
+                pressEnterToContinue();
+                system("cls");
+                main_menu();
+                return 0;
+            }
+        }
+    }
+    fclose(fpCheck);
+}
     color(0x0a);
     printf(" [System] Lodding Your Data\n");
     time_delay();
     color(0x07);
+    printf("\n");
+    D_seperator();
 
     char line[200];
     int found = 0;  
@@ -273,9 +308,10 @@ int votting_casting()
     D_seperator();
 
     printf(" Available Parties \n");
+    D_seperator();
 
     color(0x06);
-    printf("\n  Code\t| Name\n");
+    printf("  Code\t| Name\n");
     printf("--------------------\n");
     FILE *fp1 = fopen(PARTY_FILE, "r");
     if (fp1 == NULL) {
@@ -307,7 +343,7 @@ int votting_casting()
     D_seperator();
 
     printf(" Available Candidates in %s (District %s) \n", party_code, file_distric_code);
-    
+
     color(0x06);
     printf("\n    District\t|   Party\t| Candidate\t|  Name\n");
     printf("    code\t|   code\t| Code\t\t|\n");
@@ -315,42 +351,38 @@ int votting_casting()
 
     FILE *fp5 = fopen(CANDIDATE_FILE, "r");
     if (fp5 == NULL) {
-        printf("Error opening file for districts!\n");
+        printf("Error opening file for candidates!\n");
         exit(1);
     }
-    
-    char line1[200];
 
-    while (fgets(line, sizeof(line), fp5)) {
-        char *fields[20];
-        char f_district_code[20] = "";
-        char f_party_code[20] = "";
-        char f_candi_code[20] ="";
-        char *token;
-        int count = 0;
+    char line5[200];
 
-        // Tokenize by |
-        token = strtok(line, "|");
-        while (token != NULL && count < 20) {
-            fields[count++] = token;
-            token = strtok(NULL, "|");
-        }
-
+    while (fgets(line5, sizeof(line5), fp5)) {
+        char f_candi_code[20];
+        char f_nic[50];
+        char f_name[100];
+        char f_age[10];
+        char f_citizenship[10];
+        char f_password[50];
+        char f_district_code[20];
+        char f_party_code[20];
         
-        if (count >= 7) {
-            char *f_district_code = fields[count - 2]; 
-            char *f_party_code    = fields[count - 1];
-            char *f_candi_code    = fields[0];
-            char *name     = fields[2];         
-
-            // remove trailing newline from last field
-            f_party_code[strcspn(f_party_code, "\r\n")] = 0;
-            if (strcmp(f_district_code, district) == 0 && strcmp(f_party_code, party_code) == 0){
-                printf("    %s\t\t|   %s\t|    %s\t\t|  %-20s\n", f_district_code,  f_party_code,f_candi_code,name);
-            }
+        // Parse: CandidateCode|NIC|Name|Age|Citizenship|Password|District|Party
+        sscanf(line5, "%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^\n]",
+            f_candi_code, f_nic, f_name, f_age, f_citizenship, 
+            f_password, f_district_code, f_party_code);
+        
+        // Remove trailing whitespace
+        f_party_code[strcspn(f_party_code, "\r\n ")] = 0;
+        f_district_code[strcspn(f_district_code, "\r\n ")] = 0;
+        
+        // Check if matches user's district and selected party
+        if (strcmp(f_district_code, file_distric_code) == 0 && 
+            strcmp(f_party_code, party_code) == 0) {
+            printf("    %s\t|   %s\t\t|    %s\t\t|  %-20s\n", f_district_code, f_party_code, f_candi_code, f_name);
         }
     }
-    
+
     color(0x07);
     fclose(fp5);
 
@@ -416,7 +448,11 @@ int votting_casting()
                 printf("File Error");
                 exit(1);
             }
-            fprintf(fp1,"%s|%s|%s|%s|%s|\n",district,party_code,candidate_codes1,candidate_codes2,candidate_codes3);
+           
+            // Save with NIC first for easy checking
+            fprintf(fp1, "%s|%s|%s|%s|%s|%s|\n", district, party_code, candidate_codes1, candidate_codes2, candidate_codes3,user_NIC);
+        fclose(fp1);
+
             fclose(fp1);
 
             printf("%s|%s|%s|%s|%s|\n",district,party_code,candidate_codes1,candidate_codes2,candidate_codes3);
@@ -451,28 +487,100 @@ int votting_casting()
 
 int public_nomination_list()
 {
-    E_seperator();
-    printf("\t\tPUBLIC NOMINATION LIST  2025\n");
-    E_seperator();
+        FILE *fp4;
+        char partyID[10], partyName[100];
+        char candidateID[20], name[50], districtID[10];
+        int age;
+        char filename[100];
+        int count;
+        int totalParties = 0;
+        int totalCandidates = 0;
 
-    printf("\nAvailable Parties: \n");
-    printf(" [1] P123 - Unity National Party \n");
-    printf(" [2] P456 - Peoples Freedom Front \n");
-    printf(" [3] P789 - National Peoples Alliance \n");
-    printf(" [0] Back to Main Menu \n");
+        system("cls");
 
-    D_seperator();
-    printf("Enter Party Code to View Candidates: ");
-    char party_code[10];
-    scanf("%9s", party_code);
+        // Simple Header
+        E_seperator();
+        printf("\t  PARTY NOMINATIONS LIST 2025\n");
+        E_seperator();
+        printf("\n");
 
-    D_seperator();
+        // Open party file
+        fp4 = fopen(PARTY_FILE, "r");
+        if (fp4 == NULL) {
+            color(0x0c);
+            printf(" Error: Cannot open parties file!\n");
+            color(0x07);
+            pressEnterToContinue();
+            system("cls");
+            main_menu();
+            return 1;
+        }
 
-    D_seperator();
-    printf("Redirecting to Main Menu...\n");
-    time_delay();
-    system("cls");
-    main_menu();
+        // Read each party
+        while (fscanf(fp4, "%[^|]|%[^\n]\n", partyID, partyName) == 2) {
+            totalParties++;
+            
+            // Party Header
+            printf("\n");
+            D_seperator();
+            color(0x0e);
+            printf(" PARTY: %s (%s)\n", partyName, partyID);
+            color(0x07);
+            D_seperator();
+            
+            // Try to open nomination file
+            sprintf(filename, "../data/nomination_list/PA_%s_nomination.txt", partyID);
+            FILE *nomFile = fopen(filename, "r");
+            
+            if (nomFile == NULL) {
+                color(0x0c);
+                printf(" No candidates found\n");
+                color(0x07);
+                continue;
+            }
+            
+            // Simple Table Header
+            printf("\n %-18s %-25s %-8s %-12s\n", 
+                    "Candidate ID", "Name", "Age", "District");
+            printf(" %-18s %-25s %-8s %-12s\n", 
+                    "------------------", "-------------------------", "--------", "------------");
+            
+            count = 0;
+            
+            // Display candidates
+            while (fscanf(nomFile, "%[^|]|%[^|]|%d|%[^|]|\n", 
+                            candidateID, name, &age, districtID) == 4) {
+                
+                printf(" %-18s %-25s %-8d %-12s\n", 
+                        candidateID, name, age, districtID);
+                count++;
+                totalCandidates++;
+            }
+            
+            printf("\n");
+            color(0x0a);
+            printf(" Total: %d candidates\n", count);
+            color(0x07);
+            
+            fclose(nomFile);
+        }
+
+        fclose(fp4);
+
+        // Summary
+        printf("\n");
+        E_seperator();
+        color(0x0b);
+        printf(" SUMMARY: %d Parties | %d Total Candidates\n", totalParties, totalCandidates);
+        color(0x07);
+        E_seperator();
+
+        printf("\n");
+        pressEnterToContinue();
+        system("cls");
+        main_menu();
+
+        return 0;
 }
 
 int election_results_menu()
