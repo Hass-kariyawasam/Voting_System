@@ -1,0 +1,3 @@
+D001|Colombo|19
+D002|Galle|9
+D003|Kandy|12

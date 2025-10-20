@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h> //screen clear
 #include "custom.h"
-int main(); // Forward declaration of main
+#include <windows.h>
 
+int main(); 
 
 int admin_loging(const char *user) {
 
@@ -17,45 +19,53 @@ int admin_loging(const char *user) {
     printf("\t%s\n",userid);
     E_seperator(); // Call to separator function
 
-    printf("\nPlease enter your credentials:\n\n");   
-    printf("Username: ");
+    printf("\n Please enter your credentials \n");   
+    D_seperator();
+    printf(" Username : ");
     scanf("%49s", username);
-    printf("Password: ");
+    printf(" Password : ");
     scanf("%49s", password);
-    printf("\n[System] Authenticating...\n");
+    D_seperator();
 
-    // Generate expected password
-    snprintf(pass, sizeof(pass), "%s123", user); // E.g., "ELECTION123"
+    
+    A_delay();
+    D_seperator();
+    // Generate password
+    snprintf(pass, sizeof(pass), "%s123", user); // E.g.,, "ELECTION123"
 
 
     if (strcmp(username, user) == 0 && strcmp(password, pass) == 0) {
-        printf("Login successful!\n");
-        // time delay simulation
-        printf("initializing");
-       
-        // Simple delay loop
-        for (int i = 0; i <= 10; i++) {
-            printf(".");
-            for (int j = 0; j < 100000000; j++); // Inner delay loop
-
-        
-        }
+        color(0x0a); 
+        printf(" Login successful!\n");
+        color(0x07); 
+        D_seperator();
             
         
         printf("\n");
         if (strcmp(user, "ELECTION") == 0) {
+            pressEnterToContinue();
+            system("cls");
             UI_election_admin();
            
         } else if (strcmp(user, "RETURNING") == 0) {
+            pressEnterToContinue();
+            system("cls");
+            UI_returning_officer();
             
-                        
         } else if (strcmp(user, "PRESIDING") == 0) {
+            pressEnterToContinue();
+            system("cls");
             UI_PO();
 
         } else if (strcmp(user, "PARTY_ADMIN") == 0){
-            
+            pressEnterToContinue();
+            system("cls");
+            UI_party_admin();
         }  else {
-            printf("ERRO Unknown user type.\n");
+            printf("Error Unknown user type.\n");
+            pressEnterToContinue();
+            time_delay();
+            system("cls");
             admin_panel();
         }
         
@@ -63,16 +73,14 @@ int admin_loging(const char *user) {
         return 1; 
 
     } else {
-        printf("Invalid credentials. Please try again.\n");
-        
-        printf("Redirecting to admin menu...\n");
-        for (int i = 0; i <= 10; i++) {
-            printf(".");
-            for (int j = 0; j < 100000000; j++); // Inner delay loop
-
-        }
+        color(0x0c);
+        printf(" Invalid credentials. Please try again.\n");
+        color(0x07);
+        printf(" Redirecting to admin menu...\n");
+        pressEnterToContinue();
+        system("cls");
         admin_panel();
-         printf("\n");
+      
     }
 
     return 0;
