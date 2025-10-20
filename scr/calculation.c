@@ -2,8 +2,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-int main() {
-    FILE *fp = fopen("..\\data\\pooling.txt", "r");  
+#define POLING_FILE "../data/pooling.txt"
+
+int candidate_calculate() {
+    FILE *fp = fopen(POLING_FILE, "r");  
     if (fp == NULL) {
         printf("Input file not found!\n");
         return 1;
@@ -85,5 +87,5 @@ int main() {
     fclose(out);
     printf(" Output saved to calculation.txt successfully!\n");
 
-    return 0;
+    
 }

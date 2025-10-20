@@ -71,7 +71,7 @@ int election_results_district_view();
 int election_results_party_view();
 
 
-
+int candidate_calculate();
 
 
 int UI_RO();
