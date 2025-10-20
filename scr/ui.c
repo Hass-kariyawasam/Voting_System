@@ -223,7 +223,7 @@ int votting_casting(char *logged_in_nic)
    strcpy(user_NIC, logged_in_nic);
 
     FILE *fpCheck = fopen(POOLING_FILE, "r");
-if (fpCheck != NULL) {
+    if (fpCheck != NULL) {
     char line_check[300];
     
     while (fgets(line_check, sizeof(line_check), fpCheck)) {
@@ -260,6 +260,8 @@ if (fpCheck != NULL) {
     printf(" [System] Lodding Your Data\n");
     time_delay();
     color(0x07);
+    printf("\n");
+    D_seperator();
 
     char line[200];
     int found = 0;  
@@ -306,9 +308,10 @@ if (fpCheck != NULL) {
     D_seperator();
 
     printf(" Available Parties \n");
+    D_seperator();
 
     color(0x06);
-    printf("\n  Code\t| Name\n");
+    printf("  Code\t| Name\n");
     printf("--------------------\n");
     FILE *fp1 = fopen(PARTY_FILE, "r");
     if (fp1 == NULL) {
@@ -340,7 +343,7 @@ if (fpCheck != NULL) {
     D_seperator();
 
     printf(" Available Candidates in %s (District %s) \n", party_code, file_distric_code);
-    
+
     color(0x06);
     printf("\n    District\t|   Party\t| Candidate\t|  Name\n");
     printf("    code\t|   code\t| Code\t\t|\n");
@@ -348,42 +351,38 @@ if (fpCheck != NULL) {
 
     FILE *fp5 = fopen(CANDIDATE_FILE, "r");
     if (fp5 == NULL) {
-        printf("Error opening file for districts!\n");
+        printf("Error opening file for candidates!\n");
         exit(1);
     }
-    
-    char line1[200];
 
-    while (fgets(line, sizeof(line), fp5)) {
-        char *fields[20];
-        char f_district_code[20] = "";
-        char f_party_code[20] = "";
-        char f_candi_code[20] ="";
-        char *token;
-        int count = 0;
+    char line5[200];
 
-        // Tokenize by |
-        token = strtok(line, "|");
-        while (token != NULL && count < 20) {
-            fields[count++] = token;
-            token = strtok(NULL, "|");
-        }
-
+    while (fgets(line5, sizeof(line5), fp5)) {
+        char f_candi_code[20];
+        char f_nic[50];
+        char f_name[100];
+        char f_age[10];
+        char f_citizenship[10];
+        char f_password[50];
+        char f_district_code[20];
+        char f_party_code[20];
         
-        if (count >= 7) {
-            char *f_district_code = fields[count - 2]; 
-            char *f_party_code    = fields[count - 1];
-            char *f_candi_code    = fields[0];
-            char *name     = fields[2];         
-
-            // remove trailing newline from last field
-            f_party_code[strcspn(f_party_code, "\r\n")] = 0;
-            if (strcmp(f_district_code, district) == 0 && strcmp(f_party_code, party_code) == 0){
-                printf("    %s\t\t|   %s\t|    %s\t\t|  %-20s\n", f_district_code,  f_party_code,f_candi_code,name);
-            }
+        // Parse: CandidateCode|NIC|Name|Age|Citizenship|Password|District|Party
+        sscanf(line5, "%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^\n]",
+            f_candi_code, f_nic, f_name, f_age, f_citizenship, 
+            f_password, f_district_code, f_party_code);
+        
+        // Remove trailing whitespace
+        f_party_code[strcspn(f_party_code, "\r\n ")] = 0;
+        f_district_code[strcspn(f_district_code, "\r\n ")] = 0;
+        
+        // Check if matches user's district and selected party
+        if (strcmp(f_district_code, file_distric_code) == 0 && 
+            strcmp(f_party_code, party_code) == 0) {
+            printf("    %s\t|   %s\t\t|    %s\t\t|  %-20s\n", f_district_code, f_party_code, f_candi_code, f_name);
         }
     }
-    
+
     color(0x07);
     fclose(fp5);
 
