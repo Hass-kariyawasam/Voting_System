@@ -182,7 +182,7 @@ char polling_login()
         D_seperator();
         pressEnterToContinue();
         system("cls");
-        votting_casting();
+        votting_casting(NIC);
     }
     else
     {   
@@ -202,7 +202,7 @@ char polling_login()
     return 0;
 }
 
-int votting_casting()
+int votting_casting(char *logged_in_nic)
 {   
    
 
@@ -219,10 +219,43 @@ int votting_casting()
     char error_district_code[50] = "";
     char user_NIC[55];
 
-    D_seperator();
-    printf("\n Enter Your NIC Number : ");  
-    scanf("%s39",user_NIC);
-    D_seperator();
+   
+   strcpy(user_NIC, logged_in_nic);
+
+    FILE *fpCheck = fopen(POOLING_FILE, "r");
+if (fpCheck != NULL) {
+    char line_check[300];
+    
+    while (fgets(line_check, sizeof(line_check), fpCheck)) {
+        char stored_nic[55];
+        
+        // Skip first 5 fields, read only the 6th field (NIC)
+        // Format: district|party|cand1|cand2|cand3|NIC|
+        int result = sscanf(line_check, "%*[^|]|%*[^|]|%*[^|]|%*[^|]|%*[^|]|%[^|]|", stored_nic);
+        
+        if (result == 1) {  // Successfully read NIC
+            stored_nic[strcspn(stored_nic, "\r\n ")] = 0;  // Clean whitespace
+            
+            if (strcmp(user_NIC, stored_nic) == 0) {
+                fclose(fpCheck);
+                system("cls");
+                color(0x0c);
+                E_seperator();
+                printf("\tALREADY VOTED!\n");
+                E_seperator();
+                printf("\n You have already cast your vote.\n");
+                printf(" Each voter can only vote once.\n");
+                color(0x07);
+                D_seperator();
+                pressEnterToContinue();
+                system("cls");
+                main_menu();
+                return 0;
+            }
+        }
+    }
+    fclose(fpCheck);
+}
     color(0x0a);
     printf(" [System] Lodding Your Data\n");
     time_delay();
@@ -416,7 +449,11 @@ int votting_casting()
                 printf("File Error");
                 exit(1);
             }
-            fprintf(fp1,"%s|%s|%s|%s|%s|\n",district,party_code,candidate_codes1,candidate_codes2,candidate_codes3);
+           
+            // Save with NIC first for easy checking
+            fprintf(fp1, "%s|%s|%s|%s|%s|%s|\n", district, party_code, candidate_codes1, candidate_codes2, candidate_codes3,user_NIC);
+        fclose(fp1);
+
             fclose(fp1);
 
             printf("%s|%s|%s|%s|%s|\n",district,party_code,candidate_codes1,candidate_codes2,candidate_codes3);
