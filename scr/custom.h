@@ -48,10 +48,6 @@ int accept_nomination_list();
 int district_result_generation(); //not ok
 int review_nomination_list();
 
-
-
-
-
 //voter and candidate registration
 void voter_registration();
 void candidate_registration();
@@ -59,7 +55,7 @@ void candidate_registration();
 //poling hass
 int poling_Asccss();
 char polling_login(); // done .
-int votting_casting();
+int votting_casting(char *logged_in_nic);
 
 
 // NOMINATOIN LIST HASS
@@ -71,7 +67,10 @@ int election_results_district_view();
 int election_results_party_view();
 
 
+//calculate HIMANSANA
+int party_calculate();
 int candidate_calculate();
+
 
 
 int UI_RO();

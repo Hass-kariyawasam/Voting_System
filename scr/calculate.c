@@ -1,20 +1,23 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "custom.h" //cuserm file
 
 #define MAX_PARTIES 100
 #define LINE_SIZE 256
+#define PARTY_VORTS_FILE "../data/party_votes.txt"
+#define POLLLING_FILE "../data/pooling.txt"
 
-int main() {
+int party_calculate() {
     FILE *fp_out1 = fopen("party_votes.txt", "w"); //erraas all data
     fprintf(fp_out1,"");
     fclose(fp_out1);
 
-    FILE *fp_poll = fopen("pooling.txt", "r");
-    FILE *fp_votes = fopen("party_votes.txt", "r");
+    FILE *fp_poll = fopen(POLLLING_FILE, "r");
+    FILE *fp_votes = fopen(PARTY_VORTS_FILE, "r");
 
     if (fp_poll == NULL || fp_votes == NULL) {
-        printf("Error opening files.\n");
+        printf(" [System] Error opening files.\n");
         return 1;
     }
 
@@ -84,9 +87,9 @@ int main() {
     fclose(fp_poll); // Done reading polling
 
     // --- Write updated votes ---
-    FILE *fp_out = fopen("party_votes.txt", "w");
+    FILE *fp_out = fopen(PARTY_VORTS_FILE, "w");
     if (fp_out == NULL) {
-        printf("Error writing file.\n");
+        printf(" [System] Error writing file.\n");
         return 1;
     }
 
@@ -95,6 +98,12 @@ int main() {
     }
     fclose(fp_out);
 
-    printf("Updated party votes saved.\n");
-    return 0;
+    color(0x0a);
+    printf(" [System] Updated party votes saved.\n\n");
+    color(0x07);
+    pressEnterToContinue();
+    A_delay();
+    system("cls");
+    UI_returning_officer();
+
 }
