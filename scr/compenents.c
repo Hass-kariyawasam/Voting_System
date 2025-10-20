@@ -24,18 +24,20 @@ int time_delay(){
         for (int j = 0; j < 30000000; j++)
             ; // Inner delay loop
     }
+     printf("\n");
 }
 int long_delay(){
- printf("Initializing");
+ printf(" Initializing");
     for (int i = 0; i <= 10; i++)
     {
         printf(".");
         for (int j = 0; j < 100000000; j++)
             ; // Inner delay loop
     }
+     printf("\n");
 }
 int A_delay(){
- printf("[System] Authenticating");
+ printf(" [System] Authenticating");
     for (int i = 0; i <= 5; i++)
     {
         printf(".");
@@ -48,7 +50,7 @@ int A_delay(){
 
 // Function to wait for Enter key
 void pressEnterToContinue() {
-    printf("Press Enter to continue...");
+    printf(" Press Enter to continue...");
     // Clear input buffer if needed
     int c;
     while ((c = getchar()) != '\n' && c != EOF);  // Clear any leftover input
