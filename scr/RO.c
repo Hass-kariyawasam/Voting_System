@@ -29,7 +29,7 @@ int UI_returning_officer(){
     
     case 1:
         system("cls");
-        int candidate_calculate();
+        candidate_calculate();
         break;
     case 2:
         system("cls");
