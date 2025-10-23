@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+//diclere functions
+
 int main(); 
 //compenents
 int E_seperator();

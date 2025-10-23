@@ -6,7 +6,7 @@
 
 int main(); 
 
-int admin_loging(const char *user) {
+int admin_loging(const char user[20]) {
 
     char username[50];
     char password[50];
