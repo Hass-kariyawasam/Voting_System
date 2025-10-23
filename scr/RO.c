@@ -17,7 +17,7 @@ int UI_returning_officer(){
 
    
     printf(" [1] District Result Generation  \n");
-    printf(" [2] Result View and Publication  \n");
+    printf(" [2] Party Resalt Generation \n");
     printf(" [0] Back to Admin Panel \n");
 
     D_seperator();
@@ -31,7 +31,13 @@ int UI_returning_officer(){
         system("cls");
         district_result_generation();
         break;
-    
+    case 2:
+        system("cls");
+        printf(" Calculateing....\n");
+        party_calculate();
+
+
+        break;
   
     case 0:
         system("cls");

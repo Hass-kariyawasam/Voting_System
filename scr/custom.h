@@ -50,10 +50,6 @@ int accept_nomination_list();
 int district_result_generation(); //not ok
 int review_nomination_list();
 
-
-
-
-
 //voter and candidate registration
 void voter_registration();
 void candidate_registration();
@@ -72,7 +68,8 @@ int election_results_menu();
 int election_results_district_view();
 int election_results_party_view();
 
-
+//calculate HIMANSANA
+int party_calculate();
 
 
 
