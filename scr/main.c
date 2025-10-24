@@ -1,15 +1,9 @@
 
 #include <stdio.h>
+#include <string.h>
 #include "custom.h"
 
-//funtions declaration
-
-int main_menu();
 int main() {
-
-    main_menu();
-
+   main_menu();
     return 0;
-
-}  
-
+}
