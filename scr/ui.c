@@ -181,116 +181,80 @@ int public_nomination_list()
 
 int election_results_menu()
 {
+            //viewing results from party voters.txt file take party id and name from parties.txt file and votes are in the party_votes.txt file and display in a table format
+    FILE *fp_party, *fp_votes;
+    char partyID[10], partyName[100], vpartyID[10], cvotes[10];
+    int votes;
+    int totalVotes = 0;
+    system("cls");
     E_seperator();
-    printf("\tELECTION RESULTS MENU 2025\n");
+    printf("\t  ELECTION RESULTS 2025\n");
     E_seperator();
+    printf("\n %-10s %-25s %-10s\n", "Party ID", "Party Name", "Votes");
+    printf(" %-10s %-25s %-10s\n", "----------", "-------------------------", "----------");
+    fp_party = fopen(PARTY_FILE, "r");
+    fp_votes = fopen("../data/party_votes.txt", "r");
+    //tmpfile = fopen("../data/tmp.txt", "a");
 
-    printf("\nAvailable Districts: \n");
-    printf(" [1] District-wise Results \n");
-    printf(" [2] Party Detail View \n");
-    printf(" [0] Back to Main Menu \n");
-
-    D_seperator();
-    printf("Enter District Code to View Results: ");
-
-    int choice;
-    scanf("%d", &choice);
-
-    switch (choice)
-    {
-    case 1:
+    if (fp_party == NULL) {
+        color(0x0c);
+        printf(" Error: Cannot open parties file!\n");
+        color(0x07);
+        pressEnterToContinue();
         system("cls");
-        election_results_district_view();
-        break;
-    case 2:
-        system("cls");
-        election_results_party_view();
-        break;
-    
-    case 0:
-        system("cls");
-        main_menu(); // Return to main menu
-
-        
-    default:
-        
-        printf("Invalid choice. Please try again.\n");
-        time_delay();
-        system("cls");
-        election_results_menu();
-        break;
+        main_menu();
+        return 1;
     }
-
-    return 0; 
-}
-
-int election_results_district_view()
-{
+    if (fp_votes == NULL) {
+        color(0x0c);
+        printf(" Error: Cannot open votes file!\n");
+        color(0x07);
+        pressEnterToContinue();
+        system("cls");
+        main_menu();
+        return 1;
+    }
+    while (fscanf(fp_party, "%[^|]|%[^\n]\n", partyID, partyName) == 2) {
+        // Open votes file for each party
+        // char votesFilePath[100];
+        // sprintf(votesFilePath, "../data/party_votes/PA_%s_votes.txt", partyID);
+        // fp_votes = fopen(votesFilePath, "r");
+        // if (fp_votes != NULL) {
+        //     if (fscanf(fp_votes, "%d\n", &votes) == 1) {
+        //         printf(" %-10s %-25s %-10d\n", partyID, partyName, votes);
+        //         totalVotes += votes;
+        //     }
+        //     fclose(fp_votes);
+        // } else {
+        //     printf(" %-10s %-25s %-10s\n", partyID, partyName, "0");
+        // }
+        char line[200];
+        while(fgets(line, sizeof(line), fp_votes)){
+            sscanf(line, "%[^|]|%[^\n]", vpartyID, cvotes);
+//            fscanf(fp_votes, "%[^|]|%[^\n]", vpartyID, cvotes)
+            if(strcmp(partyID, vpartyID)==0)
+            {
+                printf(" %-10s %-26s %d\n", vpartyID, partyName, atoi(cvotes));
+                break;
+            }
+        }
+    }
+    // fclose(tmpfile);
+    // remove("../data/tmp.txt");
+    fclose(fp_votes);
+    fclose(fp_party);
+    printf("\n");
     E_seperator();
-    printf("\tELECTION RESULTS DISTRICT VIEW 2025\n");
-    E_seperator();
-
-    printf("\n Available Districts: \n");
-    printf(" [1] D001 - Colombo \n");
-    printf(" [2] D002 - Gampaha \n");
-    printf(" [3] D003 - Kandy \n");
-    printf(" [0] Back to Election Results Menu \n");
-
-    D_seperator();
-    printf("Enter District Code to View Results: ");
-
-    char district_code[10];
-    scanf("%9s", district_code);
-    D_seperator();
-
-    D_seperator();
-    // Press [Enter] to return to District Selection...
-    printf("press [Enter] to return to District Selection...\n");
-    getchar();   // waits until ENTER is pressed
-    time_delay();
+    // color(0x0b);
+    // printf(" Total Votes Cast: %d\n", totalVotes);
+    // color(0x07);
+    // E_seperator();
+    printf("\n");
+    pressEnterToContinue();
     system("cls");
-    election_results_menu();
+    main_menu();
     return 0;
-}
-
-int election_results_party_view()
-{
-    E_seperator();
-    printf("\tUNITY NATIONAL PARTY (P123) ELECTED MPs");
-    E_seperator();
-
-    printf("DISTRICT: Colombo (D001) = Seats Won: 6 ");
-    printf("------------------------------------------------- \n");
-    printf("Candidate Name      Candidate Code   Preference Votes   Status \n");
-    printf("------------------------------------------------- \n");
-    printf("Mr. A. Perera       C001             25,430             Elected \n");
-    printf("Ms. B. Silva        C002             23,120             Elected \n");
-    printf("Mr. R. Fernando     C003             19,870             Elected \n");
-    printf("Ms. D. Kumari       C004             18,530             Elected \n");
-    printf("Mr. L. Jayasinghe   C005             17,990             Elected \n");
-    printf("Mr. K. Wickrama     C006             16,750             Elected \n");
-    printf("------------------------------------------------- \n");
-    printf("DISTRICT: Gampaha (D002) = Seats Won: 5 \n");
-    printf("------------------------------------------------- \n");
-    printf("Candidate Name      Candidate Code   Preference Votes   Status \n");
-    printf("------------------------------------------------- \n");
-    printf("Ms. S. Fernando     C021             22,300             Elected \n");
-    printf("Mr. J. Silva        C022             21,880             Elected \n");
-    printf("Mr. T. Perera       C023             19,670             Elected \n");
-    printf("Mr. D. Bandara      C024             18,540             Elected \n");
-    printf("Ms. W. Kumari       C025             16,930             Elected \n");
-    printf("------------------------------------------------- \n");
-    printf("Press [Enter] to return to Party Summary...");
-    getchar();   // waits until ENTER is pressed
-    time_delay();
-    system("cls");
-    election_results_menu();
     
-    return 0;
+       
+
 }
-
-
-// TG2082-party admin panel
-
-
-
