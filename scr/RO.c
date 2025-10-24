@@ -16,7 +16,7 @@ int UI_returning_officer(){
     E_seperator();
 
    
-    printf(" [1] District Result Generation  \n");
+    printf(" [1] Candidate Calculate  \n");
     printf(" [2] Party Resalt Generation \n");
     printf(" [0] Back to Admin Panel \n");
 
@@ -29,7 +29,7 @@ int UI_returning_officer(){
     
     case 1:
         system("cls");
-       
+        candidate_calculate();
         break;
     case 2:
         system("cls");

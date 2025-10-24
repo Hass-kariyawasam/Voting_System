@@ -68,8 +68,10 @@ int election_results_menu();
 int election_results_district_view();
 int election_results_party_view();
 
+
 //calculate HIMANSANA
 int party_calculate();
+int candidate_calculate();
 
 
 
