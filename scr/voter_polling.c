@@ -217,7 +217,7 @@ int votting_casting(char *logged_in_nic)
                 strcpy(name, token);
                 token = strtok(NULL, "|"); // Skip age
                 token = strtok(NULL, "|"); // Skip citizenship
-                token = strtok(NULL, "|"); // Get password
+                token = strtok(NULL, "|"); // Skip password
                 token = strtok(NULL, "\n"); // Get districcode
                 if (token != NULL) {
                     strcpy(file_distric_code, token);

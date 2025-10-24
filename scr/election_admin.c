@@ -12,7 +12,6 @@ int main();
 
 
 //Election Admin panel
-
 int UI_election_admin(){
     E_seperator();
     printf("\tELECTION ADDMIN PANNEL\n");
