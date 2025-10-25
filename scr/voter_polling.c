@@ -131,7 +131,7 @@ char polling_login()
         system("cls");
         
         main_menu();
-        return 0;
+       
     }
 
     return 0;
@@ -384,7 +384,7 @@ int votting_casting(char *logged_in_nic)
             }
            
             // Save with NIC first for easy checking
-            fprintf(fp1, "%s|%s|%s|%s|%s|%s|\n", district, party_code, candidate_codes1, candidate_codes2, candidate_codes3,user_NIC);
+            fprintf(fp1, "%s|%s|%s|%s|%s|%s|\n", file_distric_code, party_code, candidate_codes1, candidate_codes2, candidate_codes3,user_NIC);
         fclose(fp1);
 
             fclose(fp1);
