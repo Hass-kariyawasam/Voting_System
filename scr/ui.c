@@ -259,8 +259,7 @@ switch(x){
 case 2:
 //distplay candidate votes
 
-#include <stdio.h>
-#include <string.h>
+
 
 struct Candidate {
     char id[10];
@@ -293,7 +292,7 @@ int main(); {
         candCount++;
     }
     fclose(fc);
-
+ 
     //Read votes and display
     fv = fopen("..\\data\\candidate_votes.txt", "r");
     if (fv == NULL) {
