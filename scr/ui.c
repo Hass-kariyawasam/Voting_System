@@ -181,7 +181,23 @@ int public_nomination_list()
 
 int election_results_menu()
 {
-            //viewing results from party voters.txt file take party id and name from parties.txt file and votes are in the party_votes.txt file and display in a table format
+   int x;
+   E_seperator();
+   printf("\n \t\tResults & Publications\n");
+   
+   E_seperator();
+   printf("[1] Party votes \n");
+   printf("[2] Candidate votes \n");
+
+printf("\n\nEnter Your Choise  -");
+printf("\n");
+E_seperator();
+scanf("%d",&x);
+switch(x){
+    case 1:
+
+
+   // KTB
     FILE *fp_party, *fp_votes;
     char partyID[10], partyName[100], vpartyID[10], cvotes[10];
     int votes;
@@ -194,8 +210,7 @@ int election_results_menu()
     printf(" %-10s %-25s %-10s\n", "----------", "-------------------------", "----------");
     fp_party = fopen(PARTY_FILE, "r");
     fp_votes = fopen("../data/party_votes.txt", "r");
-    //tmpfile = fopen("../data/tmp.txt", "a");
-
+   
     if (fp_party == NULL) {
         color(0x0c);
         printf(" Error: Cannot open parties file!\n");
@@ -215,23 +230,11 @@ int election_results_menu()
         return 1;
     }
     while (fscanf(fp_party, "%[^|]|%[^\n]\n", partyID, partyName) == 2) {
-        // Open votes file for each party
-        // char votesFilePath[100];
-        // sprintf(votesFilePath, "../data/party_votes/PA_%s_votes.txt", partyID);
-        // fp_votes = fopen(votesFilePath, "r");
-        // if (fp_votes != NULL) {
-        //     if (fscanf(fp_votes, "%d\n", &votes) == 1) {
-        //         printf(" %-10s %-25s %-10d\n", partyID, partyName, votes);
-        //         totalVotes += votes;
-        //     }
-        //     fclose(fp_votes);
-        // } else {
-        //     printf(" %-10s %-25s %-10s\n", partyID, partyName, "0");
-        // }
+     
         char line[200];
         while(fgets(line, sizeof(line), fp_votes)){
             sscanf(line, "%[^|]|%[^\n]", vpartyID, cvotes);
-//            fscanf(fp_votes, "%[^|]|%[^\n]", vpartyID, cvotes)
+
             if(strcmp(partyID, vpartyID)==0)
             {
                 printf(" %-10s %-26s %d\n", vpartyID, partyName, atoi(cvotes));
@@ -239,22 +242,100 @@ int election_results_menu()
             }
         }
     }
-    // fclose(tmpfile);
-    // remove("../data/tmp.txt");
+    
+
+  
     fclose(fp_votes);
     fclose(fp_party);
     printf("\n");
     E_seperator();
-    // color(0x0b);
-    // printf(" Total Votes Cast: %d\n", totalVotes);
-    // color(0x07);
-    // E_seperator();
+    
     printf("\n");
     pressEnterToContinue();
     system("cls");
     main_menu();
+
+
+case 2:
+//distplay candidate votes
+
+#include <stdio.h>
+#include <string.h>
+
+struct Candidate {
+    char id[10];
+    char name[50];
+    char party[10];
+   
+};
+
+int main(); {
+    struct Candidate cand[100];
+    int candCount = 0;
+    FILE *fv;
+    FILE *fc;
+    char line[200];
+    char party[10], cid[10];
+    int votes;
+ 
+    //Read candidate details
+    fc = fopen("..\\data\\candidates.txt", "r");
+    if (fc == NULL) {
+        printf("Cannot open candidates.txt\n");
+        return 1;
+    }
+
+    while (fgets(line, sizeof(line), fc)) {
+  
+        char temp[10];
+        sscanf(line, "%[^|]|%*[^|]|%[^|]|%*[^|]|%*[^|]|%*[^|]|%*[^|]|%s",
+               cand[candCount].id, cand[candCount].name, cand[candCount].party);
+        candCount++;
+    }
+    fclose(fc);
+
+    //Read votes and display
+    fv = fopen("..\\data\\candidate_votes.txt", "r");
+    if (fv == NULL) {
+        printf("Cannot open candidate_votes.txt\n");
+        return 1;
+    }
+
+system("cls");
+E_seperator();
+    printf("\t  ELECTION RESULTS 2025\n");
+    E_seperator();
+    printf("Party  | Candidate | Votes\n");
+    printf("---------------------------\n");
+
+    while (fscanf(fv, "%[^|]|%[^|]|%d\n", party, cid, &votes) == 3) {
+        for (int i = 0; i < candCount; i++) {
+            if (strcmp(cid, cand[i].id) == 0) {
+                printf("%s | %s | %d\n", party, cand[i].name, votes);
+                break;
+            }
+        }
+    }
+
+    fclose(fv);
+
+        printf("\n");
+    pressEnterToContinue();
+    system("cls");
+    main_menu();
     return 0;
+}
+
+  } 
+  
+  return 0;
     
-       
+
 
 }
+
+    
+
+
+
+      
