@@ -32,3 +32,7 @@ int UI_RO();
 int UI_PARTY_ADMIN();
 int party_agent_observer();
 
+int UI_party_admin();
+int nomination();
+int voter_reg();
+int candidate_reg();
