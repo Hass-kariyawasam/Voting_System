@@ -181,120 +181,155 @@ int public_nomination_list()
 
 int election_results_menu()
 {
-    E_seperator();
-    printf("\tELECTION RESULTS MENU 2025\n");
-    E_seperator();
+   int x;
+   E_seperator();
+   printf("\n \t\tResults & Publications\n");
+   
+   E_seperator();
+   printf("[1] Party votes \n");
+   printf("[2] Candidate votes \n");
 
-    printf("\nAvailable Districts: \n");
-    printf(" [1] District-wise Results \n");
-    printf(" [2] Party Detail View \n");
-    printf(" [0] Back to Main Menu \n");
-
-    D_seperator();
-    printf("Enter District Code to View Results: ");
-
-    int choice;
-    scanf("%d", &choice);
-
-    switch (choice)
-    {
+printf("\n\nEnter Your Choise  -");
+printf("\n");
+E_seperator();
+scanf("%d",&x);
+switch(x){
     case 1:
-        system("cls");
-        election_results_district_view();
-        break;
-    case 2:
-        system("cls");
-        election_results_party_view();
-        break;
-    
-    case 0:
-        system("cls");
-        main_menu(); // Return to main menu
 
-        
-    default:
-        
-        printf("Invalid choice. Please try again.\n");
-        time_delay();
+
+   // KTB
+    FILE *fp_party, *fp_votes;
+    char partyID[10], partyName[100], vpartyID[10], cvotes[10];
+    int votes;
+    int totalVotes = 0;
+    system("cls");
+    E_seperator();
+    printf("\t  ELECTION RESULTS 2025\n");
+    E_seperator();
+    printf("\n %-10s %-25s %-10s\n", "Party ID", "Party Name", "Votes");
+    printf(" %-10s %-25s %-10s\n", "----------", "-------------------------", "----------");
+    fp_party = fopen(PARTY_FILE, "r");
+    fp_votes = fopen("../data/party_votes.txt", "r");
+   
+    if (fp_party == NULL) {
+        color(0x0c);
+        printf(" Error: Cannot open parties file!\n");
+        color(0x07);
+        pressEnterToContinue();
         system("cls");
-        election_results_menu();
-        break;
+        main_menu();
+        return 1;
+    }
+    if (fp_votes == NULL) {
+        color(0x0c);
+        printf(" Error: Cannot open votes file!\n");
+        color(0x07);
+        pressEnterToContinue();
+        system("cls");
+        main_menu();
+        return 1;
+    }
+    while (fscanf(fp_party, "%[^|]|%[^\n]\n", partyID, partyName) == 2) {
+     
+        char line[200];
+        while(fgets(line, sizeof(line), fp_votes)){
+            sscanf(line, "%[^|]|%[^\n]", vpartyID, cvotes);
+
+            if(strcmp(partyID, vpartyID)==0)
+            {
+                printf(" %-10s %-26s %d\n", vpartyID, partyName, atoi(cvotes));
+                break;
+            }
+        }
+    }
+    
+
+  
+    fclose(fp_votes);
+    fclose(fp_party);
+    printf("\n");
+    E_seperator();
+    
+    printf("\n");
+    pressEnterToContinue();
+    system("cls");
+    main_menu();
+
+
+case 2:
+//distplay candidate votes
+
+
+
+struct Candidate {
+    char id[10];
+    char name[50];
+    char party[10];
+   
+};
+
+int main(); {
+    struct Candidate cand[100];
+    int candCount = 0;
+    FILE *fv;
+    FILE *fc;
+    char line[200];
+    char party[10], cid[10];
+    int votes;
+ 
+    //Read candidate details
+    fc = fopen("..\\data\\candidates.txt", "r");
+    if (fc == NULL) {
+        printf("Cannot open candidates.txt\n");
+        return 1;
     }
 
-    return 0; 
-}
+    while (fgets(line, sizeof(line), fc)) {
+  
+        char temp[10];
+        sscanf(line, "%[^|]|%*[^|]|%[^|]|%*[^|]|%*[^|]|%*[^|]|%*[^|]|%s",
+               cand[candCount].id, cand[candCount].name, cand[candCount].party);
+        candCount++;
+    }
+    fclose(fc);
+ 
+    //Read votes and display
+    fv = fopen("..\\data\\candidate_votes.txt", "r");
+    if (fv == NULL) {
+        printf("Cannot open candidate_votes.txt\n");
+        return 1;
+    }
 
-int election_results_district_view()
-{
+system("cls");
+E_seperator();
+    printf("\t  ELECTION RESULTS 2025\n");
     E_seperator();
-    printf("\tELECTION RESULTS DISTRICT VIEW 2025\n");
-    E_seperator();
+    printf("Party  | Candidate | Votes\n");
+    printf("---------------------------\n");
 
-    printf("\n Available Districts: \n");
-    printf(" [1] D001 - Colombo \n");
-    printf(" [2] D002 - Gampaha \n");
-    printf(" [3] D003 - Kandy \n");
-    printf(" [0] Back to Election Results Menu \n");
+    while (fscanf(fv, "%[^|]|%[^|]|%d\n", party, cid, &votes) == 3) {
+        for (int i = 0; i < candCount; i++) {
+            if (strcmp(cid, cand[i].id) == 0) {
+                printf("%s | %s | %d\n", party, cand[i].name, votes);
+                break;
+            }
+        }
+    }
 
-    D_seperator();
-    printf("Enter District Code to View Results: ");
+    fclose(fv);
 
-    char district_code[10];
-    scanf("%9s", district_code);
-    D_seperator();
-
-    D_seperator();
-    // Press [Enter] to return to District Selection...
-    printf("press [Enter] to return to District Selection...\n");
-    getchar();   // waits until ENTER is pressed
-    time_delay();
+        printf("\n");
+    pressEnterToContinue();
     system("cls");
-    election_results_menu();
+    main_menu();
     return 0;
 }
 
-int election_results_party_view()
-{
-    E_seperator();
-    printf("\tUNITY NATIONAL PARTY (P123) ELECTED MPs");
-    E_seperator();
-
-    printf("DISTRICT: Colombo (D001) = Seats Won: 6 ");
-    printf("------------------------------------------------- \n");
-    printf("Candidate Name      Candidate Code   Preference Votes   Status \n");
-    printf("------------------------------------------------- \n");
-    printf("Mr. A. Perera       C001             25,430             Elected \n");
-    printf("Ms. B. Silva        C002             23,120             Elected \n");
-    printf("Mr. R. Fernando     C003             19,870             Elected \n");
-    printf("Ms. D. Kumari       C004             18,530             Elected \n");
-    printf("Mr. L. Jayasinghe   C005             17,990             Elected \n");
-    printf("Mr. K. Wickrama     C006             16,750             Elected \n");
-    printf("------------------------------------------------- \n");
-    printf("DISTRICT: Gampaha (D002) = Seats Won: 5 \n");
-    printf("------------------------------------------------- \n");
-    printf("Candidate Name      Candidate Code   Preference Votes   Status \n");
-    printf("------------------------------------------------- \n");
-    printf("Ms. S. Fernando     C021             22,300             Elected \n");
-    printf("Mr. J. Silva        C022             21,880             Elected \n");
-    printf("Mr. T. Perera       C023             19,670             Elected \n");
-    printf("Mr. D. Bandara      C024             18,540             Elected \n");
-    printf("Ms. W. Kumari       C025             16,930             Elected \n");
-    printf("------------------------------------------------- \n");
-    printf("Press [Enter] to return to Party Summary...");
-    getchar();   // waits until ENTER is pressed
-    time_delay();
-    system("cls");
-    election_results_menu();
+  } 
+  
+  return 0;
     
-    return 0;
+
+
 }
-
-
-// TG2082-party admin panel
-
-
-
-
-
-
 

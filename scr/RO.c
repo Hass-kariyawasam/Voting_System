@@ -36,7 +36,6 @@ int UI_returning_officer(){
         printf(" Calculateing....\n");
         party_calculate();
 
-
         break;
   
     case 0:
