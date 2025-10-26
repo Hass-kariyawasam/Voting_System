@@ -10,7 +10,7 @@
 #define CANDIDATE_FILE "../data/candidates.txt"
 #define PARTY_FILE "../data/parties.txt"
 #define POOLING_FILE "../data/pooling.txt"
-#define DISTRICT_FILE "../data/district.txt"
+#define DISTRICT_FILE "../data/districts.txt"
 
 
 int main(); 
@@ -178,139 +178,184 @@ int public_nomination_list()
 
         return 0;
 }
-
 int election_results_menu()
 {
-   int x;
-   E_seperator();
-   printf("\n \t\tResults & Publications\n");
-   
-   E_seperator();
-   printf("[1] Party votes \n");
-   printf("[2] Candidate votes \n");
+    int x;
+    E_seperator();
+    printf("\n \t\tResults & Publications\n");
+    E_seperator();
+    printf("[1] Party votes \n");
+    printf("[2] Candidate votes \n");
+    printf("[3] Seat Allocation \n");
+    printf("\n\nEnter Your Choice -");
+    printf("\n");
+    E_seperator();
+    scanf("%d", &x);
 
-printf("\n\nEnter Your Choise  -");
-printf("\n");
-E_seperator();
-scanf("%d",&x);
-switch(x){
-    case 1:
+    switch(x) {
+        case 1:
+            display_party_results();
+            break;
+        case 2:
+            display_candidate_results();
+            break;
+        case 3:
+            display_seat_allocation();
+            break;
+        default:
+            printf(" Invalid choice\n");
+            pressEnterToContinue();
+            system("cls");
+            main_menu();
+    }
+    return 0;
+}
 
-
-   // KTB
+// Display party results with separation by party
+int display_party_results()
+{
     FILE *fp_party, *fp_votes;
     char partyID[10], partyName[100], vpartyID[10], cvotes[10];
-    int votes;
-    int totalVotes = 0;
+    int votes, totalVotes = 0;
+    int partyCount = 0;
+
     system("cls");
     E_seperator();
-    printf("\t  ELECTION RESULTS 2025\n");
+    printf("\t  ELECTION RESULTS 2025 - PARTY VOTES\n");
     E_seperator();
-    printf("\n %-10s %-25s %-10s\n", "Party ID", "Party Name", "Votes");
-    printf(" %-10s %-25s %-10s\n", "----------", "-------------------------", "----------");
+
+    // First pass: calculate total votes
     fp_party = fopen(PARTY_FILE, "r");
     fp_votes = fopen("../data/party_votes.txt", "r");
-   
-    if (fp_party == NULL) {
-        color(0x0c);
-        printf(" Error: Cannot open parties file!\n");
-        color(0x07);
-        pressEnterToContinue();
-        system("cls");
-        main_menu();
-        return 1;
-    }
-    if (fp_votes == NULL) {
-        color(0x0c);
-        printf(" Error: Cannot open votes file!\n");
-        color(0x07);
-        pressEnterToContinue();
-        system("cls");
-        main_menu();
-        return 1;
-    }
-    while (fscanf(fp_party, "%[^|]|%[^\n]\n", partyID, partyName) == 2) {
-     
-        char line[200];
-        while(fgets(line, sizeof(line), fp_votes)){
-            sscanf(line, "%[^|]|%[^\n]", vpartyID, cvotes);
 
-            if(strcmp(partyID, vpartyID)==0)
-            {
-                printf(" %-10s %-26s %d\n", vpartyID, partyName, atoi(cvotes));
+    if (fp_party == NULL || fp_votes == NULL) {
+        color(0x0c);
+        printf(" Error: Cannot open files!\n");
+        color(0x07);
+        pressEnterToContinue();
+        system("cls");
+        main_menu();
+        return 1;
+    }
+
+    while (fscanf(fp_votes, "%[^|]|%[^\n]\n", vpartyID, cvotes) == 2) {
+        totalVotes += atoi(cvotes);
+    }
+
+    fclose(fp_votes);
+
+    // Second pass: display results with percentages
+    printf("\n %-10s %-25s %-10s %-12s\n", "Party ID", "Party Name", "Votes", "Percentage");
+    printf(" %-10s %-25s %-10s %-12s\n", "----------", "-------------------------", "----------", "----------");
+
+    fp_votes = fopen("../data/party_votes.txt", "r");
+
+    while (fscanf(fp_party, "%[^|]|%[^\n]\n", partyID, partyName) == 2) {
+        rewind(fp_votes);
+        
+        while (fscanf(fp_votes, "%[^|]|%[^\n]\n", vpartyID, cvotes) == 2) {
+            if (strcmp(partyID, vpartyID) == 0) {
+                int voteCount = atoi(cvotes);
+                float percentage = totalVotes > 0 ? (voteCount * 100.0) / totalVotes : 0;
+                
+                printf(" %-10s %-25s %-10d %.2f%%\n", vpartyID, partyName, voteCount, percentage);
+                partyCount++;
                 break;
             }
         }
     }
-    
 
-  
-    fclose(fp_votes);
-    fclose(fp_party);
     printf("\n");
     E_seperator();
-    
+    color(0x0b);
+    printf(" TOTAL PARTIES: %d | TOTAL VOTES: %d\n", partyCount, totalVotes);
+    color(0x07);
+    E_seperator();
+
+    fclose(fp_party);
+    fclose(fp_votes);
+
     printf("\n");
     pressEnterToContinue();
     system("cls");
     main_menu();
+    return 0;
+}
 
+// Display all candidate results without threshold
+int display_candidate_results()
+{
+    struct Candidate {
+        char id[10];
+        char name[50];
+        char party[10];
+    } cand[100];
 
-case 2:
-//distplay candidate votes
-
-
-
-struct Candidate {
-    char id[10];
-    char name[50];
-    char party[10];
-   
-};
-
-int main(); {
-    struct Candidate cand[100];
     int candCount = 0;
-    FILE *fv;
-    FILE *fc;
+    FILE *fv, *fc;
     char line[200];
     char party[10], cid[10];
-    int votes;
- 
-    //Read candidate details
-    fc = fopen("..\\data\\candidates.txt", "r");
+    int votes, totalVotes = 0;
+
+    // Read candidate details
+    fc = fopen(CANDIDATE_FILE, "r");
     if (fc == NULL) {
-        printf("Cannot open candidates.txt\n");
+        color(0x0c);
+        printf(" Error: Cannot open candidates file!\n");
+        color(0x07);
+        pressEnterToContinue();
+        system("cls");
+        main_menu();
         return 1;
     }
 
     while (fgets(line, sizeof(line), fc)) {
-  
-        char temp[10];
-        sscanf(line, "%[^|]|%*[^|]|%[^|]|%*[^|]|%*[^|]|%*[^|]|%*[^|]|%s",
-               cand[candCount].id, cand[candCount].name, cand[candCount].party);
+        sscanf(line, "%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^\n]",
+               cand[candCount].id, cand[candCount].name, cand[candCount].party,
+               NULL, NULL, NULL, NULL, NULL);
         candCount++;
     }
     fclose(fc);
- 
-    //Read votes and display
-    fv = fopen("..\\data\\candidate_votes.txt", "r");
+
+    // First pass: calculate total votes
+    fv = fopen("../data/candidate_votes.txt", "r");
     if (fv == NULL) {
-        printf("Cannot open candidate_votes.txt\n");
+        color(0x0c);
+        printf(" Error: Cannot open candidate votes file!\n");
+        color(0x07);
+        pressEnterToContinue();
+        system("cls");
+        main_menu();
         return 1;
     }
 
-system("cls");
-E_seperator();
-    printf("\t  ELECTION RESULTS 2025\n");
+    while (fscanf(fv, "%[^|]|%[^|]|%d\n", party, cid, &votes) == 3) {
+        totalVotes += votes;
+    }
+    fclose(fv);
+
+    // Second pass: display all candidates
+    system("cls");
     E_seperator();
-    printf("Party  | Candidate | Votes\n");
-    printf("---------------------------\n");
+    printf("\t  ELECTION RESULTS 2025 - CANDIDATE VOTES\n");
+    E_seperator();
+
+    fv = fopen("../data/candidate_votes.txt", "r");
+
+    printf("\n %-10s | %-25s | %-10s | %-12s\n", "Party", "Candidate Name", "Votes", "Percentage");
+    printf(" %-10s | %-25s | %-10s | %-12s\n", 
+           "----------", "-------------------------", "----------", "----------");
+
+    int totalCandidates = 0;
 
     while (fscanf(fv, "%[^|]|%[^|]|%d\n", party, cid, &votes) == 3) {
+        float percentage = totalVotes > 0 ? (votes * 100.0) / totalVotes : 0;
+
         for (int i = 0; i < candCount; i++) {
             if (strcmp(cid, cand[i].id) == 0) {
-                printf("%s | %s | %d\n", party, cand[i].name, votes);
+                printf(" %-10s | %-25s | %-10d | %.2f%%\n", 
+                       party, cand[i].name, votes, percentage);
+                totalCandidates++;
                 break;
             }
         }
@@ -318,18 +363,159 @@ E_seperator();
 
     fclose(fv);
 
-        printf("\n");
+    printf("\n");
+    E_seperator();
+    color(0x0b);
+    printf(" TOTAL CANDIDATES: %d | TOTAL VOTES: %d\n", totalCandidates, totalVotes);
+    color(0x07);
+    E_seperator();
+
+    printf("\n");
     pressEnterToContinue();
     system("cls");
     main_menu();
     return 0;
 }
 
-  } 
-  
-  return 0;
-    
+// Display seat allocation based on party votes and available seats - District Wise
+int display_seat_allocation()
+{
+    struct PartySeats {
+        char partyID[10];
+        char partyName[100];
+        int votes;
+    } parties[50];
 
+    struct District {
+        char districtID[10];
+        char districtName[100];
+        int availableSeats;
+    } districts[50];
 
+    FILE *fp_party, *fp_votes, *fp_district;
+    char partyID[10], partyName[100], vpartyID[10], cvotes[10];
+    int votes;
+    int partyCount = 0, districtCount = 0;
+    int totalVotes = 0, totalSeats = 0;
+
+    system("cls");
+
+    // Read districts and available seats
+    fp_district = fopen(DISTRICT_FILE, "r");
+    if (fp_district == NULL) {
+        color(0x0c);
+        printf(" Error: Cannot open district file!\n");
+        color(0x07);
+        pressEnterToContinue();
+        system("cls");
+        main_menu();
+        return 1;
+    }
+
+    while (fscanf(fp_district, "%[^|]|%[^|]|%d\n", 
+                  districts[districtCount].districtID, 
+                  districts[districtCount].districtName, 
+                  &districts[districtCount].availableSeats) == 3) {
+        totalSeats += districts[districtCount].availableSeats;
+        districtCount++;
+    }
+    fclose(fp_district);
+
+    // Read party votes
+    fp_party = fopen(PARTY_FILE, "r");
+    fp_votes = fopen("../data/party_votes.txt", "r");
+
+    if (fp_party == NULL || fp_votes == NULL) {
+        color(0x0c);
+        printf(" Error: Cannot open files!\n");
+        color(0x07);
+        pressEnterToContinue();
+        system("cls");
+        main_menu();
+        return 1;
+    }
+
+    // Calculate total votes
+    while (fscanf(fp_votes, "%[^|]|%[^\n]\n", vpartyID, cvotes) == 2) {
+        totalVotes += atoi(cvotes);
+    }
+    fclose(fp_votes);
+
+    // Read party details
+    fp_votes = fopen("../data/party_votes.txt", "r");
+    rewind(fp_party);
+
+    while (fscanf(fp_party, "%[^|]|%[^\n]\n", partyID, partyName) == 2) {
+        rewind(fp_votes);
+        
+        while (fscanf(fp_votes, "%[^|]|%[^\n]\n", vpartyID, cvotes) == 2) {
+            if (strcmp(partyID, vpartyID) == 0) {
+                votes = atoi(cvotes);
+                
+                strcpy(parties[partyCount].partyID, partyID);
+                strcpy(parties[partyCount].partyName, partyName);
+                parties[partyCount].votes = votes;
+                
+                partyCount++;
+                break;
+            }
+        }
+    }
+
+    fclose(fp_party);
+    fclose(fp_votes);
+
+    // Display results district-wise
+    E_seperator();
+    printf("\t  SEAT ALLOCATION 2025 - DISTRICT WISE\n");
+    E_seperator();
+
+    int totalAllocatedAll = 0;
+
+    // For each district
+    for (int d = 0; d < districtCount; d++) {
+        printf("\n");
+        D_seperator();
+        color(0x0e);
+        printf(" DISTRICT: %s (%s) - Available Seats: %d\n", 
+               districts[d].districtName, districts[d].districtID, districts[d].availableSeats);
+        color(0x07);
+        D_seperator();
+
+        printf("\n %-10s | %-25s | %-10s | %-15s\n", 
+               "Party ID", "Party Name", "Votes", "Allocated Seats");
+        printf(" %-10s | %-25s | %-10s | %-15s\n", 
+               "----------", "-------------------------", "----------", "---------------");
+
+        int districtAllocated = 0;
+
+        // Allocate seats for each party in this district
+        for (int p = 0; p < partyCount; p++) {
+            int seatsForParty = (parties[p].votes * districts[d].availableSeats) / totalVotes;
+            printf(" %-10s | %-25s | %-10d | %-15d\n", 
+                   parties[p].partyID, parties[p].partyName, 
+                   parties[p].votes, seatsForParty);
+            districtAllocated += seatsForParty;
+            totalAllocatedAll += seatsForParty;
+        }
+
+        printf("\n");
+        color(0x0a);
+        printf(" District Total Allocated: %d seats\n", districtAllocated);
+        color(0x07);
+    }
+
+    printf("\n");
+    E_seperator();
+    color(0x0b);
+    printf(" TOTAL AVAILABLE SEATS: %d | TOTAL ALLOCATED SEATS: %d\n", totalSeats, totalAllocatedAll);
+    color(0x07);
+    E_seperator();
+
+    printf("\n");
+    pressEnterToContinue();
+    system("cls");
+    main_menu();
+    return 0;
 }
 

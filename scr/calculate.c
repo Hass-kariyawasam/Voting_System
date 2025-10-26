@@ -190,7 +190,7 @@ int candidate_calculate() {
     }
 
     for (int i = 0; i < candidate_count; i++) {
-        fprintf(fp_out, "%s|%s|%d|\n",
+        fprintf(fp_out, "%s|%s|%d\n",
                 party_codes[i],
                 candidate_numbers[i],
                 candidate_votes[i]);

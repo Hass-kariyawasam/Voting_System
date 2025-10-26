@@ -104,4 +104,6 @@ int party_agent_observer();
 
 
 
-
+int display_candidate_results();
+int display_party_results();
+int display_seat_allocation();
