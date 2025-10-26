@@ -3,3 +3,4 @@ D002|Galle|9
 D003|Kandy|12
 D004|Matara|12
 D005|Hambantota|14
+D006|Jaffna|4

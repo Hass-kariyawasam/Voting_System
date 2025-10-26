@@ -19,7 +19,7 @@ int UI_election_admin(){
 
     printf("\n [1] District Registration \n");
     printf(" [2] Party Registration \n");
-    printf(" [3] Final Result Declaration \n");
+   
     printf(" [0] Back to Admin Control Panel\n");
 
     D_seperator();
@@ -40,11 +40,7 @@ int UI_election_admin(){
         system("cls");
         party_registration();
         break;
-    case 3:
-        system("cls");
-        final_result_declaration();
-        break;
-
+   
     case 0:
         
         system("cls");
@@ -58,7 +54,7 @@ int UI_election_admin(){
 
  int district_registration(){
     E_seperator();
-    printf("\t\tDostrict Registration\n");
+    printf("\t\tDistrict Registration\n");
     E_seperator();
 
     printf("\n [1] Add New District \n");
@@ -134,32 +130,13 @@ char add_district() {
 
    
     
-    printf("-------------------------------------------------\n");
-    printf(" Options: \n");
-    printf(" [0] Back \n");
-    printf("Enter your choice: ");
-    int choice;
-    scanf("%d",&choice);
+    D_seperator();
 
-    switch (choice){
-        
-        case 0:
-            system("cls");
-            district_registration();
-            break;
-        default:
-            
-            printf("Invalid choice. Please try again.\n");
-            printf("Redirecting to Party Registration Menu...\n");
-            
-            system("cls");
-            time_delay();
-            pressEnterToContinue();
-            party_registration();
-            break;
-
-        }
-    return 0;
+    system("cls");
+    time_delay();
+    pressEnterToContinue();
+    district_registration();
+ 
  }
 
  int display_all_districts(){
@@ -199,8 +176,6 @@ char add_district() {
     pressEnterToContinue();
     system("cls");
     district_registration();
-
-    //need to add registered districts from database
 
 
  }      
@@ -286,42 +261,4 @@ int display_registerd_parties(){
     //need to add registered parties from database
 return 0;  
 }   
-
-
- int final_result_declaration(){
-    E_seperator();
-    printf("\t\tFinal Result Declaration\n");
-    E_seperator();
-
-    printf("\n [1] Collect District Results \n");
-    printf(" [2] Generate Final Result Summary \n");
-    printf(" [0] Back to Election Admin Panel \n");
-
-    D_seperator();
-    printf("Enter your choice: ");
-    int choice;
-    scanf("%d",&choice);
-
-        switch (choice){
-            case 1:
-              pressEnterToContinue();
-              system("cls");
-               UI_election_admin();
-                break;
-            case 2:
-               pressEnterToContinue();
-               system("cls");
-               UI_election_admin();
-                break;
-            case 0:
-                system("cls");
-                UI_election_admin();
-            
-            default:
-            printf("Invalid choice. Please try again.\n");
-            break;
-
-        }
-    return 0;  
- }  
 
